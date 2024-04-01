@@ -14,6 +14,7 @@ public class ChessConsoleRenderer : IRenderer
     }
     public void Render(Board board)
     {
+        System.Console.Clear();
         ConsoleColor backColor = System.Console.BackgroundColor;
         ConsoleColor forColor = System.Console.ForegroundColor;
 
@@ -104,6 +105,7 @@ public class ChessConsoleRenderer : IRenderer
         System.Console.ForegroundColor = ConsoleColor.Red;
         System.Console.WriteLine(message);
         System.Console.ForegroundColor = curColor;
+        System.Console.ReadKey();
 
     }
 }

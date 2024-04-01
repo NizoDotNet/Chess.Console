@@ -27,24 +27,35 @@ public class StandartChess : IGame
         {
             _renderer.Render(Board);
             (Coordinate, Coordinate) move = _renderer.AskMove(color);
-            
+
             if (Board.PieceAndCoordinates.TryGetValue(move.Item1, out Piece piece) && piece.Color == color)
             {
-                _renderer.Error($"{piece.Name}");
+                if (Board.PieceAndCoordinates.TryGetValue(move.Item2, out Piece piece2) && piece2.Color == color)
+                {
+                    _renderer.Error("You can't move this piece to this squere");
+                }
+                else
+                {
+                    Board.RemocePiece(move.Item1);
+                    Board.SetPiece(piece, move.Item2);
+                }
+                switch (color)
+                {
+                    case Color.White:
+                        color = Color.Black;
+                        break;
+                    default:
+                        color = Color.White;
+                        break;
+                }
             }
             else
             {
                 _renderer.Error("You can't move this piece");
             }
-            switch (color)
-            {
-                case Color.White:
-                    color = Color.Black;
-                    break;
-                default:
-                    color = Color.White;
-                    break;
-            }
+                
+            
+            
         }
     }
 
