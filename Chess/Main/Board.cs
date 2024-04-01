@@ -12,6 +12,19 @@ public class Board
     }
 
     
+    public void SetPiece(Piece piece, Coordinate coordinate)
+    {
+        if(!PieceAndCoordinates.ContainsKey(coordinate))
+            PieceAndCoordinates[coordinate] = piece;
+        
+    }
 
+    public void RemocePiece(Coordinate coordinate)
+    {
+        if(PieceAndCoordinates.ContainsKey(coordinate))
+        {
+            PieceAndCoordinates.Remove(coordinate);
+        }
+    }
     public bool IsSquereWhite(Coordinate coordinate) => ((int)coordinate.File + coordinate.Rank) % 2 != 0;
 }

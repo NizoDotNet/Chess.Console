@@ -61,4 +61,49 @@ public class ChessConsoleRenderer : IRenderer
             _ => ""
         };
     }
+
+    public (Coordinate, Coordinate) AskMove(Color color)
+    {
+        try
+        {
+            System.Console.WriteLine("From: ");
+            for (int i = 1; i <= 8; i++)
+            {
+                System.Console.Write($"{i}.{(Helpers.File)i} ");
+            }
+            System.Console.WriteLine();
+            int fromFileInt = int.Parse(System.Console.ReadLine());
+            Helpers.File fromFile = (Helpers.File)fromFileInt;
+            int fromRankInt = int.Parse(System.Console.ReadLine());
+            Coordinate from = new Coordinate { File = fromFile, Rank = fromRankInt };
+
+            System.Console.WriteLine("To: ");
+            for (int i = 1; i <= 8; i++)
+            {
+                System.Console.Write($"{i}.{(Helpers.File)i} ");
+            }
+            System.Console.WriteLine();
+            int toFileInt = int.Parse(System.Console.ReadLine());
+            Helpers.File toFile = (Helpers.File)toFileInt;
+            int toRankInt = int.Parse(System.Console.ReadLine());
+
+            Coordinate to = new Coordinate { Rank = toRankInt, File = toFile };
+            return (from, to);
+
+        }
+        catch (Exception ex)
+        {
+            Error(ex.ToString());
+            return (null, null);
+        }
+    }
+
+    public void Error(string message)
+    {
+        ConsoleColor curColor = System.Console.ForegroundColor;
+        System.Console.ForegroundColor = ConsoleColor.Red;
+        System.Console.WriteLine(message);
+        System.Console.ForegroundColor = curColor;
+
+    }
 }
