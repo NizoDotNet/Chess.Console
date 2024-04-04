@@ -1,18 +1,24 @@
 ﻿using Chess.Helpers;
+using Chess.Main;
 
 namespace Chess.Pieces
 {
-    internal class Bishop : Piece
+    public class Bishop : Piece
     {
         public Bishop(Color color) : base(color)
         {
         }
         public override string Name => nameof(Bishop);
 
-
-        public override void PieceMoves()
+        public override IEnumerable<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
         {
             throw new NotImplementedException();
         }
+
+        public override IEnumerable<MoveCoordinate>  MoveCoordinates()
+        {
+            yield break;
+        }
+
     }
 }

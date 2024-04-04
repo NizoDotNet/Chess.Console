@@ -5,6 +5,16 @@ public record Coordinate
     private int rank;
     private File file;
 
+    public Coordinate()
+    {
+        
+    }
+    public Coordinate(int rank, File file)
+    {
+        Rank = rank;
+        File = file;
+    }
+
     public int Rank { get => rank; 
         set 
         {
@@ -18,4 +28,5 @@ public record Coordinate
             else throw new ArgumentOutOfRangeException();
         }
     }
+
 }

@@ -19,7 +19,7 @@ public class Board
         
     }
 
-    public void RemocePiece(Coordinate coordinate)
+    public void RemovePiece(Coordinate coordinate)
     {
         if(PieceAndCoordinates.ContainsKey(coordinate))
         {

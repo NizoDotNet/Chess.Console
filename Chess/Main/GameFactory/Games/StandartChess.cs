@@ -30,24 +30,26 @@ public class StandartChess : IGame
 
             if (Board.PieceAndCoordinates.TryGetValue(move.Item1, out Piece piece) && piece.Color == color)
             {
-                if (Board.PieceAndCoordinates.TryGetValue(move.Item2, out Piece piece2) && piece2.Color == color)
+                var allowedMoves = piece.GetAllowedMoves(Board, move.Item1).ToList();
+                if (!allowedMoves.Contains(move.Item2))
                 {
                     _renderer.Error("You can't move this piece to this squere");
                 }
                 else
                 {
-                    Board.RemocePiece(move.Item1);
+                    Board.RemovePiece(move.Item1);
                     Board.SetPiece(piece, move.Item2);
+                    switch (color)
+                    {
+                        case Color.White:
+                            color = Color.Black;
+                            break;
+                        default:
+                            color = Color.White;
+                            break;
+                    }
                 }
-                switch (color)
-                {
-                    case Color.White:
-                        color = Color.Black;
-                        break;
-                    default:
-                        color = Color.White;
-                        break;
-                }
+                
             }
             else
             {
