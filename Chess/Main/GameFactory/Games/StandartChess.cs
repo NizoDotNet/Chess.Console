@@ -97,7 +97,7 @@ public class StandartChess : IGame
                 break;
         }
         for (int i = 1; i <= 8; i++)
-            Board.PieceAndCoordinates[new Coordinate { File = (Helpers.File)i, Rank = rank }] = new Pawn(Color.White);
+            Board.PieceAndCoordinates[new Coordinate { File = (Helpers.File)i, Rank = rank }] = new Pawn(color);
 
 
 
