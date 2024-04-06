@@ -108,4 +108,22 @@ public class ChessConsoleRenderer : IRenderer
         System.Console.ReadKey();
 
     }
+
+    public Piece Promation(Color color)
+    {
+        System.Console.WriteLine("1. Queen");
+        System.Console.WriteLine("2. Bishop");
+        System.Console.WriteLine("3. Knight");
+        System.Console.WriteLine("4. Rook");
+        int pieceNo = int.Parse(System.Console.ReadLine());
+
+        return pieceNo switch
+        {
+            1 => new Queen(color),
+            2 => new Bishop(color),
+            3 => new Knight(color),
+            4 => new Rook(color),
+            _ => throw new Exception("???")
+        };
+    }
 }

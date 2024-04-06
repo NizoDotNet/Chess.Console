@@ -30,7 +30,7 @@ public class StandartChess : IGame
 
             if (Board.PieceAndCoordinates.TryGetValue(move.Item1, out Piece piece) && piece.Color == color)
             {
-                var allowedMoves = piece.GetAllowedMoves(Board, move.Item1).ToList();
+                var allowedMoves = piece.GetAllowedMoves(Board, move.Item1);
                 if (!allowedMoves.Contains(move.Item2))
                 {
                     _renderer.Error("You can't move this piece to this squere");
@@ -38,6 +38,13 @@ public class StandartChess : IGame
                 else
                 {
                     Board.RemovePiece(move.Item1);
+                    Board.RemovePiece(move.Item2);
+                    if(piece.Name == "Pawn")
+                    {
+                        if (((Pawn)piece).CheckPromation(move.Item2)) 
+                            piece = _renderer.Promation(piece.Color);
+                    }
+                        
                     Board.SetPiece(piece, move.Item2);
                     switch (color)
                     {
@@ -90,7 +97,7 @@ public class StandartChess : IGame
                 break;
         }
         for (int i = 1; i <= 8; i++)
-            Board.PieceAndCoordinates[new Coordinate { File = (Helpers.File)i, Rank = rank }] = new Pawn(color);
+            Board.PieceAndCoordinates[new Coordinate { File = (Helpers.File)i, Rank = rank }] = new Pawn(Color.White);
 
 
 

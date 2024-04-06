@@ -10,7 +10,7 @@ public class Queen : Piece
     }
     public override string Name => nameof(Queen);
 
-    public override IEnumerable<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
+    public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
     {
         throw new NotImplementedException();
     }

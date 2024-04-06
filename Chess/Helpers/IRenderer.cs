@@ -1,4 +1,5 @@
 ﻿using Chess.Main;
+using Chess.Pieces;
 
 namespace Chess.Helpers;
 
@@ -8,4 +9,5 @@ public interface IRenderer
     (Coordinate, Coordinate) AskMove(Color color);
 
     void Error(string message);
+    Piece Promation(Color color);
 }
