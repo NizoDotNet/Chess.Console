@@ -6,8 +6,8 @@ namespace Chess.Helpers;
 public interface IRenderer
 {
     void Render(Board board);
-    (Coordinate, Coordinate) AskMove(Color color);
-
+    Coordinate AskMove(Color color, Board board);
+    Coordinate ShowAvaibleMoves(IList<Coordinate> coordinates);
     void Error(string message);
     Piece Promation(Color color);
 }

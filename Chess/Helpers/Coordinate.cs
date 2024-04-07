@@ -24,9 +24,14 @@ public record Coordinate
     public Helpers.File File { get => file; 
         set
         {
-            if((int)value < 1 || (int)value > 9) throw new ArgumentOutOfRangeException();
+            if((int)value < 1 || (int)value > 8) throw new ArgumentOutOfRangeException();
             file = value;
         }
     }
 
+
+    public override string ToString()
+    {
+        return $"{File}{Rank}";
+    }
 }

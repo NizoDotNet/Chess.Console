@@ -1,7 +1,7 @@
 ﻿using Chess.Helpers;
 using Chess.Main;
 using Chess.Pieces;
-
+using static System.Console;
 namespace Chess.Console;
 
 public class ChessConsoleRenderer : IRenderer
@@ -18,9 +18,9 @@ public class ChessConsoleRenderer : IRenderer
         ConsoleColor backColor = System.Console.BackgroundColor;
         ConsoleColor forColor = System.Console.ForegroundColor;
 
-        for (int i = 8;i >= 1; i--)
+        for (int i = 8; i >= 1; i--)
         {
-            for(int j = 1;j <= 8; j++) 
+            for (int j = 1; j <= 8; j++)
             {
                 Coordinate coordinate = new Helpers.Coordinate { File = (Helpers.File)j, Rank = i };
                 System.Console.BackgroundColor = GetSquereColor(coordinate, board);
@@ -51,7 +51,7 @@ public class ChessConsoleRenderer : IRenderer
     }
     private string GetPiece(string pieceName)
     {
-        return pieceName switch 
+        return pieceName switch
         {
             "King" => "♔",
             "Queen" => "♕",
@@ -62,6 +62,8 @@ public class ChessConsoleRenderer : IRenderer
             _ => ""
         };
     }
+
+
 
     public (Coordinate, Coordinate) AskMove(Color color)
     {
@@ -125,5 +127,38 @@ public class ChessConsoleRenderer : IRenderer
             4 => new Rook(color),
             _ => throw new Exception("???")
         };
+    }
+
+    Coordinate IRenderer.AskMove(Color color, Board board)
+    {
+        while (true)
+        {
+            WriteLine("Choose Piece");
+            for (int i = 1; i <= 8; i++)
+            {
+                System.Console.Write($"{i}.{(Helpers.File)i} ");
+            }
+            System.Console.WriteLine();
+            int fromFileInt = int.Parse(System.Console.ReadLine());
+            Helpers.File fromFile = (Helpers.File)fromFileInt;
+            int fromRankInt = int.Parse(System.Console.ReadLine());
+            Coordinate from = new Coordinate { File = fromFile, Rank = fromRankInt };
+            if (board.PieceAndCoordinates.ContainsKey(from))
+                return from;
+            else
+                WriteLine("There is no piece in this coordinate");
+        }
+    }
+
+    public Coordinate ShowAvaibleMoves(IList<Coordinate> coordinates)
+    {
+        while (true)
+        {
+            for (int i = 1; i <= coordinates.Count; i++)
+                WriteLine($"{i}. {coordinates[i-1]}");
+            if (int.TryParse(ReadLine(), out int moveindex) && moveindex - 1 <= coordinates.Count)
+                return coordinates[moveindex-1];
+        }
+        
     }
 }

@@ -12,21 +12,25 @@ public class Knight : Piece
 
     public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
     {
-        var res = new List<Coordinate>();
+        var coordinates = new List<Coordinate>();
         var moveCoordinates = MoveCoordinates();
         foreach ( var move in moveCoordinates )
         {
             try
             {
                 Coordinate checkCoordinate = new(coordinate.Rank + move.Rank, coordinate.File + move.File);
-                res.Add(checkCoordinate);
+                if (!board.PieceAndCoordinates.TryGetValue(checkCoordinate, out Piece piece) 
+                    || piece.Color != this.Color)
+                {
+                    coordinates.Add(checkCoordinate);
+                }
             }
             catch(ArgumentOutOfRangeException ex)
             {
                 continue;
             }
         }
-        return res;
+        return coordinates;
     }
 
     public override IEnumerable<MoveCoordinate>  MoveCoordinates()
