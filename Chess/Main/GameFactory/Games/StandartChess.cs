@@ -29,6 +29,12 @@ public class StandartChess : IGame
             Coordinate coordinate = _renderer.AskMove(color, Board);
             var piece = Board.PieceAndCoordinates[coordinate];
             var allowedMoves = piece.GetAllowedMoves(Board, coordinate);
+            if(allowedMoves.Count == 0)
+            {
+                _renderer.Error("You can't move this piece");
+                continue;
+            } 
+                
             var moveTo = _renderer.ShowAvaibleMoves(allowedMoves);
             piece.MakeMove(Board, coordinate, moveTo);
             switch (color)
@@ -40,7 +46,6 @@ public class StandartChess : IGame
                     color = Color.White;
                     break;
             }            
-            
         }
     }
 

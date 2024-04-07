@@ -17,9 +17,20 @@ public class ChessConsoleRenderer : IRenderer
         System.Console.Clear();
         ConsoleColor backColor = System.Console.BackgroundColor;
         ConsoleColor forColor = System.Console.ForegroundColor;
-
+        SetCursorPosition(0, 0);
+        for (int i = 1; i <= 8; i++)
+        {
+            if (i == 8)
+            {
+                Write($"{i}");
+                break;
+            }
+            WriteLine(i);
+        }
+        
         for (int i = 8; i >= 1; i--)
         {
+            SetCursorPosition(1, 8-i);
             for (int j = 1; j <= 8; j++)
             {
                 Coordinate coordinate = new Helpers.Coordinate { File = (Helpers.File)j, Rank = i };
@@ -34,8 +45,13 @@ public class ChessConsoleRenderer : IRenderer
                 else System.Console.Write("   ");
                 System.Console.BackgroundColor = backColor;
             }
-            System.Console.WriteLine();
+            WriteLine();
         }
+        for (int i = 1; i <= 8; i++)
+        {
+            Write($" {(Helpers.File)i} ");
+        }
+        WriteLine();
     }
 
     private ConsoleColor GetSquereColor(Coordinate coordinate, Board board)
@@ -61,44 +77,6 @@ public class ChessConsoleRenderer : IRenderer
             "Pawn" => "♙",
             _ => ""
         };
-    }
-
-
-
-    public (Coordinate, Coordinate) AskMove(Color color)
-    {
-        try
-        {
-            System.Console.WriteLine("From: ");
-            for (int i = 1; i <= 8; i++)
-            {
-                System.Console.Write($"{i}.{(Helpers.File)i} ");
-            }
-            System.Console.WriteLine();
-            int fromFileInt = int.Parse(System.Console.ReadLine());
-            Helpers.File fromFile = (Helpers.File)fromFileInt;
-            int fromRankInt = int.Parse(System.Console.ReadLine());
-            Coordinate from = new Coordinate { File = fromFile, Rank = fromRankInt };
-
-            System.Console.WriteLine("To: ");
-            for (int i = 1; i <= 8; i++)
-            {
-                System.Console.Write($"{i}.{(Helpers.File)i} ");
-            }
-            System.Console.WriteLine();
-            int toFileInt = int.Parse(System.Console.ReadLine());
-            Helpers.File toFile = (Helpers.File)toFileInt;
-            int toRankInt = int.Parse(System.Console.ReadLine());
-
-            Coordinate to = new Coordinate { Rank = toRankInt, File = toFile };
-            return (from, to);
-
-        }
-        catch (Exception ex)
-        {
-            Error(ex.ToString());
-            return (null, null);
-        }
     }
 
     public void Error(string message)
