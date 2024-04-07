@@ -2,12 +2,14 @@
 using Chess.Main;
 
 namespace Chess.Pieces;
-
 public class Pawn : Piece, IPawn
 {
-    public Pawn(Color color) : base(color)
+    private event Promation PromationEvent;
+
+    public Pawn(Color color, Promation promation) : base(color)
     {
         isMoved = false;
+        PromationEvent = promation;
     }
 
     public override string Name => nameof(Pawn);
@@ -109,5 +111,17 @@ public class Pawn : Piece, IPawn
             yield return new MoveCoordinate(-1, 0);
         }
     }
+
+    public override void MakeMove(Board board, Coordinate coordinate1, Coordinate coordinate2)
+    {
+        var piece = CheckPromation(coordinate2) ? PromationEvent(this.Color) : this;
+        
+        board.RemovePiece(coordinate1);
+        board.RemovePiece(coordinate2);
+        board.SetPiece(piece, coordinate2);
+
+    }
+
+     
 
 }
