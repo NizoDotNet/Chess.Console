@@ -26,5 +26,10 @@ public class Board
             PieceAndCoordinates.Remove(coordinate);
         }
     }
+
+    public bool PieceExist(int rank, Helpers.File file, out Piece piece)
+    {
+        return this.PieceAndCoordinates.TryGetValue(new(rank, file), out piece);
+    }
     public bool IsSquereWhite(Coordinate coordinate) => ((int)coordinate.File + coordinate.Rank) % 2 != 0;
 }

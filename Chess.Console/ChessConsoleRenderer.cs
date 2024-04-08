@@ -18,9 +18,9 @@ public class ChessConsoleRenderer : IRenderer
         ConsoleColor backColor = System.Console.BackgroundColor;
         ConsoleColor forColor = System.Console.ForegroundColor;
         SetCursorPosition(0, 0);
-        for (int i = 1; i <= 8; i++)
+        for (int i = 8; i >= 1; i--)
         {
-            if (i == 8)
+            if (i == 1)
             {
                 Write($"{i}");
                 break;
