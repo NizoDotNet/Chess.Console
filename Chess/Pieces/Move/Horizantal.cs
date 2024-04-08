@@ -5,31 +5,29 @@ namespace Chess.Pieces.LongRangeMove;
 
 public class Horizantal : ILongRangeMove
 {
-    public List<Coordinate> Move(Coordinate coordinate, Board board, Color color)
+    public IEnumerable<Coordinate> Move(Coordinate coordinate, Board board, Color color)
     {
-        var res = new List<Coordinate>();
         Helpers.File file = coordinate.File;
 
         for (int i = coordinate.Rank - 1; i >= 1; i--)
         {
-            if (board.PieceExist(i, file, out Piece piece))
+            if (board.PieceExist(i, file, out Piece piece, out Coordinate cr))
             {
-                if (piece.Color != color) res.Add(new(i, file));
+                if (piece.Color != color) yield return cr;
                 break;
             }
-            res.Add(new(i, file));
+            yield return cr;
         }
 
         for(int i = coordinate.Rank + 1; i <= 8; i++)
         {
-            if(board.PieceExist(i, file, out Piece piece))
+            if(board.PieceExist(i, file, out Piece piece, out Coordinate cr))
             {
-                if (piece.Color != color) res.Add(new(i, file));
+                if (piece.Color != color) yield return cr;
                 break;
             }
-            res.Add(new(i, file));
+            yield return cr;
         }
 
-        return res;
     }
 }

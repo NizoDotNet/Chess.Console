@@ -33,7 +33,7 @@ public class Knight : Piece
         return coordinates;
     }
 
-    public override IEnumerable<MoveCoordinate>  MoveCoordinates()
+    public IEnumerable<MoveCoordinate>  MoveCoordinates()
     {
         yield return new MoveCoordinate(2, -1);
         yield return new MoveCoordinate(2, 1);

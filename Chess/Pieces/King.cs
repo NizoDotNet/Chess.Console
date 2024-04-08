@@ -15,9 +15,5 @@ internal class King : Piece
         throw new NotImplementedException();
     }
 
-    public override IEnumerable<MoveCoordinate>  MoveCoordinates()
-    {
-        yield break;
-    }
 
 }

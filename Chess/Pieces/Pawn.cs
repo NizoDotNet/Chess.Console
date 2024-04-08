@@ -91,7 +91,7 @@ public class Pawn : Piece, IPawn
     }
 
 
-    public override IEnumerable<MoveCoordinate>  MoveCoordinates()
+    public IEnumerable<MoveCoordinate>  MoveCoordinates()
     {
         if(!isMoved)
         {

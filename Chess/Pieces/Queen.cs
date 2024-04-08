@@ -15,10 +15,5 @@ public class Queen : Piece
         throw new NotImplementedException();
     }
 
-    public override IEnumerable<MoveCoordinate>  MoveCoordinates()
-    {
-        yield break;
-    }
-
 
 }

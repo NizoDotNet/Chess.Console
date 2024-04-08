@@ -22,8 +22,4 @@ public class Rook : Piece
         return allowedMoves;
     }
 
-    public override IEnumerable<MoveCoordinate>  MoveCoordinates()
-    {
-        yield break;
-    }
 }

@@ -13,7 +13,6 @@ public abstract class Piece
 
     public Color Color { get; set; }
     public abstract List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate);
-    public abstract IEnumerable<MoveCoordinate> MoveCoordinates();
 
     public virtual void MakeMove(Board board, Coordinate coordinate1, Coordinate coordinate2)
     {

@@ -5,5 +5,5 @@ namespace Chess.Pieces.Move;
 
 public interface IMove
 {
-    List<Coordinate> Move(Coordinate coordinate, Board board, Color color);
+    IEnumerable<Coordinate> Move(Coordinate coordinate, Board board, Color color);
 }

@@ -117,11 +117,11 @@ public class ChessConsoleRenderer : IRenderer
                 System.Console.Write($"{i}.{(Helpers.File)i} ");
             }
             System.Console.WriteLine();
-            int fromFileInt = int.Parse(System.Console.ReadLine());
+            int fromFileInt = int.Parse(ReadLine());
             Helpers.File fromFile = (Helpers.File)fromFileInt;
-            int fromRankInt = int.Parse(System.Console.ReadLine());
+            int fromRankInt = int.Parse(ReadLine());
             Coordinate from = new Coordinate { File = fromFile, Rank = fromRankInt };
-            if (board.PieceAndCoordinates.ContainsKey(from))
+            if (board.PieceAndCoordinates.TryGetValue(from, out var piece))
                 return from;
             else
                 WriteLine("There is no piece in this coordinate");
