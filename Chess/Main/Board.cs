@@ -33,4 +33,29 @@ public class Board
         return this.PieceAndCoordinates.TryGetValue(coordinate, out piece);
     }
     public bool IsSquereWhite(Coordinate coordinate) => ((int)coordinate.File + coordinate.Rank) % 2 != 0;
+
+    public Coordinate GetKing(Color color) => 
+        this.PieceAndCoordinates
+            .Where(c => c.Value.Type == PieceType.King && c.Value.Color == color)
+            .First()
+            .Key;
+    public IEnumerable<Coordinate> GetAllMoves(Color color)
+    {
+        return this.PieceAndCoordinates
+            .Where(c => c.Value.Color == color)
+            .SelectMany(c => c.Value.GetAllMoves(this, c.Key));
+    }
+
+    public bool IsKingFrightened(Color color)
+    {
+        var kingCoordinate = this.GetKing(color);
+        color = color == Color.White ? Color.Black : Color.White;
+        var opMoves = GetAllMoves(color)
+            .ToHashSet();
+        if (opMoves.Contains(kingCoordinate))
+        {
+            return true;
+        }
+        return false;
+    }
 }

@@ -11,7 +11,7 @@ internal class King : Piece
 
     public override PieceType Type => PieceType.King;
 
-    public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
+    public override List<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
     {
         return [];
     }

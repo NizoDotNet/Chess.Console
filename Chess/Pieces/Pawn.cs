@@ -72,7 +72,7 @@ public class Pawn : Piece, IPawn
         return false;
     }
 
-    public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
+    public override List<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
     {
         var moveCoordinates = MoveCoordinates();
         var coordinates = new List<Coordinate>();
@@ -112,13 +112,13 @@ public class Pawn : Piece, IPawn
         }
     }
 
-    public override void MakeMove(Board board, Coordinate coordinate1, Coordinate coordinate2)
+    public override void MakeMove(Board board, Coordinate from, Coordinate to)
     {
-        var piece = CheckPromation(coordinate2) ? PromationEvent(this.Color) : this;
+        var piece = CheckPromation(to) ? PromationEvent(this.Color) : this;
         
-        board.RemovePiece(coordinate1);
-        board.RemovePiece(coordinate2);
-        board.SetPiece(piece, coordinate2);
+        board.RemovePiece(from);
+        board.RemovePiece(to);
+        board.SetPiece(piece, to);
         isMoved = true;
 
     }

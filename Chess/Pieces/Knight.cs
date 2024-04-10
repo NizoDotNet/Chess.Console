@@ -10,7 +10,7 @@ public class Knight : Piece
     }
     public override PieceType Type => PieceType.Knight;
 
-    public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
+    public override List<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
     {
         var coordinates = new List<Coordinate>();
         var moveCoordinates = MoveCoordinates();

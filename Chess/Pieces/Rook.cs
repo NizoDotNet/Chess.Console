@@ -17,10 +17,10 @@ public class Rook : Piece
 
     public override PieceType Type => PieceType.Rook;
 
-    public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
+    public override List<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
     {
-        List<Coordinate> allowedMoves = [.. horizantal.Move(coordinate, board, this.Color), .. vertical.Move(coordinate, board, this.Color)];
-        return allowedMoves;
+        return [.. horizantal.Move(coordinate, board, this.Color), .. vertical.Move(coordinate, board, this.Color)];
     }
 
+    
 }
