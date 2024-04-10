@@ -9,5 +9,6 @@ public interface IRenderer
     Coordinate AskMove(Color color, Board board);
     Coordinate ShowAvaibleMoves(IList<Coordinate> coordinates);
     void Error(string message);
+    void IsCheck();
     Piece Promation(Color color);
 }

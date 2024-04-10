@@ -14,7 +14,8 @@ public class Rook : Piece
         vertical = new Vertical();
     }
 
-    public override string Name => nameof(Rook);
+
+    public override PieceType Type => PieceType.Rook;
 
     public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
     {

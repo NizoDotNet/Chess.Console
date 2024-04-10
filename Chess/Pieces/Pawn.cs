@@ -12,9 +12,10 @@ public class Pawn : Piece, IPawn
         PromationEvent = promation;
     }
 
-    public override string Name => nameof(Pawn);
 
     public bool isMoved { get; set; }
+
+    public override PieceType Type => PieceType.Pawn;
 
     public IEnumerable<Coordinate> CanTakePiece(Board board, Coordinate coordinate)
     {
@@ -100,7 +101,6 @@ public class Pawn : Piece, IPawn
             
             else 
                 yield return new MoveCoordinate(-2, 0);
-            isMoved = true;
         }
         if(this.Color == Color.White)
         {
@@ -119,6 +119,7 @@ public class Pawn : Piece, IPawn
         board.RemovePiece(coordinate1);
         board.RemovePiece(coordinate2);
         board.SetPiece(piece, coordinate2);
+        isMoved = true;
 
     }
 

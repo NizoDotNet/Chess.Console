@@ -39,7 +39,7 @@ public class ChessConsoleRenderer : IRenderer
                 if (board.PieceAndCoordinates.TryGetValue(coordinate, out Piece piece))
                 {
                     System.Console.ForegroundColor = GetPieceColor(piece);
-                    System.Console.Write($" {GetPiece(piece.Name)} ");
+                    System.Console.Write($" {GetPiece(piece.Type)} ");
                     System.Console.ForegroundColor = forColor;
                 }
                 else System.Console.Write("   ");
@@ -65,16 +65,16 @@ public class ChessConsoleRenderer : IRenderer
         if (piece.Color == Color.White) return ConsoleColor.White;
         return ConsoleColor.Black;
     }
-    private string GetPiece(string pieceName)
+    private string GetPiece(PieceType pieceType)
     {
-        return pieceName switch
+        return pieceType switch
         {
-            "King" => "♔",
-            "Queen" => "♕",
-            "Rook" => "♖",
-            "Bishop" => "♗",
-            "Knight" => "♘",
-            "Pawn" => "♙",
+            PieceType.King => "♔",
+            PieceType.Queen => "♕",
+            PieceType.Rook => "♖",
+            PieceType.Bishop => "♗",
+            PieceType.Knight => "♘",
+            PieceType.Pawn => "♙",
             _ => ""
         };
     }
@@ -121,7 +121,7 @@ public class ChessConsoleRenderer : IRenderer
             Helpers.File fromFile = (Helpers.File)fromFileInt;
             int fromRankInt = int.Parse(ReadLine());
             Coordinate from = new Coordinate { File = fromFile, Rank = fromRankInt };
-            if (board.PieceAndCoordinates.TryGetValue(from, out var piece))
+            if (board.PieceAndCoordinates.TryGetValue(from, out var piece) && piece.Color == color)
                 return from;
             else
                 WriteLine("There is no piece in this coordinate");
@@ -138,5 +138,10 @@ public class ChessConsoleRenderer : IRenderer
                 return coordinates[moveindex-1];
         }
         
+    }
+
+    public void IsCheck()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -9,8 +9,7 @@ public abstract class Piece
     {
         Color = color;
     }
-    public abstract string Name { get; }
-
+    public abstract PieceType Type { get; }
     public Color Color { get; set; }
     public abstract List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate);
 

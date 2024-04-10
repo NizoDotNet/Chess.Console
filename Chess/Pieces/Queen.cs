@@ -16,7 +16,8 @@ public class Queen : Piece
         diagonalRight = new DiagonalRight();    
 
     }
-    public override string Name => nameof(Queen);
+
+    public override PieceType Type => PieceType.Queen;
 
     public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
     {

@@ -16,7 +16,8 @@ namespace Chess.Pieces
             diagonalRight = new DiagonalRight();
 
         }
-        public override string Name => nameof(Bishop);
+
+        public override PieceType Type => PieceType.Bishop;
 
         public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
         {

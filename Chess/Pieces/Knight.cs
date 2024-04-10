@@ -8,7 +8,7 @@ public class Knight : Piece
     public Knight(Color color) : base(color)
     {
     }
-    public override string Name => nameof(Knight);
+    public override PieceType Type => PieceType.Knight;
 
     public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
     {

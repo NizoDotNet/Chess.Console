@@ -8,12 +8,23 @@ internal class King : Piece
     public King(Color color) : base(color)
     {
     }
-    public override string Name => nameof(King);
+
+    public override PieceType Type => PieceType.King;
 
     public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
     {
-        throw new NotImplementedException();
+        return [];
     }
-
+    public IEnumerable<MoveCoordinate> MoveCoordinates()
+    {
+        yield return new MoveCoordinate(1, 0);
+        yield return new MoveCoordinate(-1, 0);
+        yield return new MoveCoordinate(0, 1);
+        yield return new MoveCoordinate(0, -1);
+        yield return new MoveCoordinate(1, 1);
+        yield return new MoveCoordinate(1, -1);
+        yield return new MoveCoordinate(-1, 1);
+        yield return new MoveCoordinate(-1, -1);
+    }
 
 }
