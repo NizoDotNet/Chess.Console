@@ -19,8 +19,9 @@ namespace Chess.Pieces
 
         public override PieceType Type => PieceType.Bishop;
 
-        public override List<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
+        public override IEnumerable<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
         {
+            
             return [.. diagonalLeft.Move(coordinate, board, this.Color), ..diagonalRight.Move(coordinate, board, this.Color)];
         }
 

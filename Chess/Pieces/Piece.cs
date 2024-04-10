@@ -11,7 +11,7 @@ public abstract class Piece
     }
     public abstract PieceType Type { get; }
     public Color Color { get; set; }
-    public abstract List<Coordinate> GetAllMoves(Board board, Coordinate coordinate);
+    public abstract IEnumerable<Coordinate> GetAllMoves(Board board, Coordinate coordinate);
     public virtual List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
     {
         return GetAllMoves(board, coordinate)

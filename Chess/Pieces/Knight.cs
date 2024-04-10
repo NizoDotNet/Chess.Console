@@ -10,25 +10,25 @@ public class Knight : Piece
     }
     public override PieceType Type => PieceType.Knight;
 
-    public override List<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
+    public override IEnumerable<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
     {
         var coordinates = new List<Coordinate>();
         var moveCoordinates = MoveCoordinates();
         foreach ( var move in moveCoordinates )
         {
-            try
+            int rank = coordinate.Rank + move.Rank;
+            Helpers.File file = coordinate.File + move.File;
+            if(rank <= 8 && rank >= 1 && (int)file <= 8 && (int)file >= 8)
             {
-                Coordinate checkCoordinate = new(coordinate.Rank + move.Rank, coordinate.File + move.File);
+                Coordinate checkCoordinate = new(rank, file);
                 if (!board.PieceAndCoordinates.TryGetValue(checkCoordinate, out Piece piece) 
                     || piece.Color != this.Color)
                 {
                     coordinates.Add(checkCoordinate);
                 }
             }
-            catch(ArgumentOutOfRangeException ex)
-            {
-                continue;
-            }
+            
+            
         }
         return coordinates;
     }

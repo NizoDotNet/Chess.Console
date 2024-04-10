@@ -50,8 +50,7 @@ public class Board
     {
         var kingCoordinate = this.GetKing(color);
         color = color == Color.White ? Color.Black : Color.White;
-        var opMoves = GetAllMoves(color)
-            .ToHashSet();
+        var opMoves = GetAllMoves(color);
         if (opMoves.Contains(kingCoordinate))
         {
             return true;

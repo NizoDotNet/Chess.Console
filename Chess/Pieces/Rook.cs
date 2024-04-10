@@ -17,7 +17,7 @@ public class Rook : Piece
 
     public override PieceType Type => PieceType.Rook;
 
-    public override List<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
+    public override IEnumerable<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
     {
         return [.. horizantal.Move(coordinate, board, this.Color), .. vertical.Move(coordinate, board, this.Color)];
     }
