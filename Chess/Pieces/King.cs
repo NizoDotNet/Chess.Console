@@ -11,9 +11,25 @@ internal class King : Piece
 
     public override PieceType Type => PieceType.King;
 
-    public override List<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
+    public override IEnumerable<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
     {
-        return [];
+        var moveCoordinates = MoveCoordinates();
+        foreach (var move in moveCoordinates)
+        {
+            int rank = coordinate.Rank + move.Rank;
+            Helpers.File file = coordinate.File + move.File;
+            if (rank <= 8 && rank >= 1 && (int)file <= 8 && (int)file >= 1)
+            {
+                Coordinate checkCoordinate = new(rank, file);
+                if (!board.PieceAndCoordinates.TryGetValue(checkCoordinate, out Piece piece)
+                    || piece.Color != this.Color)
+                {
+                    yield return checkCoordinate;
+                }
+            }
+
+
+        }
     }
     public IEnumerable<MoveCoordinate> MoveCoordinates()
     {
