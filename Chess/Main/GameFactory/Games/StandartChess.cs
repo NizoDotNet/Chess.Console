@@ -21,7 +21,8 @@ public class StandartChess : IGame
 
     public void StartGame()
     {
-        SetPieces();
+        
+        SetPieces(_renderer.Promation);
         
         while (true)
         {
@@ -29,6 +30,7 @@ public class StandartChess : IGame
             if (Board.IsKingFrightened(color))
             {
                 _renderer.Error("Your king is under attack");
+                _renderer.Error(Board.GetAllowedMovesCount().ToString());
             }
             Coordinate coordinate = _renderer.AskMove(color, Board);
             var piece = Board.PieceAndCoordinates[coordinate];
@@ -54,10 +56,9 @@ public class StandartChess : IGame
         }
     }
 
-    private void SetPieces()
+    private void SetPieces(Promation promation)
     {
-        SetPieces(Color.Black, 8);
-        SetPieces(Color.White, 1);
+        Board.SetFen("rnbqk2r/pppp1ppp/7n/2b1p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR", promation);
 
     }
 

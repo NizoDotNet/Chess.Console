@@ -11,20 +11,55 @@ public class Board
         PieceAndCoordinates = new();
     }
 
-    
-    public void SetPiece(Piece piece, Coordinate coordinate)
+    public void SetFen(string fen, Promation promation)
     {
-        if(!PieceAndCoordinates.ContainsKey(coordinate))
-            PieceAndCoordinates[coordinate] = piece;
-        
+        string[] rows = fen.Split("/");
+        for(int i = 0; i < rows.Length; i++)
+        {
+            Helpers.File file = (Helpers.File)1;
+            for(int j = 0; j < rows[i].Length; j++)
+            {
+                char c = rows[i][j];
+                if (!char.IsDigit(c))
+                {
+                    var piece = GetPieceByLetter(c, promation);
+                    SetPiece(piece, new(8- i, file));
+                    file = j == (rows[i].Length - 1) ? file : file + 1;
+
+                }
+                else file = j == (rows[i].Length - 1) ? file : file + (c - '0');
+            }
+        }
     }
 
-    public void RemovePiece(Coordinate coordinate)
+    private Piece GetPieceByLetter(char letter, Promation promation)
     {
-        if(PieceAndCoordinates.ContainsKey(coordinate))
+        Color color = char.IsLower(letter) ? Color.Black : Color.White;
+        letter = char.ToLower(letter);
+        return letter switch
+        {
+            'k' => new King(color),
+            'q' => new Queen(color),
+            'b' => new Bishop(color),
+            'n' => new Knight(color),
+            'r' => new Rook(color),
+            'p' => new Pawn(color, promation)
+        };
+    }
+
+    public void SetPiece(Piece piece, Coordinate coordinate)
+    {
+       PieceAndCoordinates[coordinate] = piece; 
+    }
+
+    public Piece RemovePiece(Coordinate coordinate)
+    {
+        if(PieceAndCoordinates.TryGetValue(coordinate, out Piece piece))
         {
             PieceAndCoordinates.Remove(coordinate);
+            return piece;
         }
+        return null;
     }
 
     public bool PieceExist(int rank, Helpers.File file, out Piece piece, out Coordinate coordinate)
@@ -52,5 +87,12 @@ public class Board
         color = color == Color.White ? Color.Black : Color.White;
         var opMoves = GetAllMoves(color);
         return opMoves.Contains(kingCoordinate);
+    }
+
+    public int GetAllowedMovesCount()
+    {
+        return PieceAndCoordinates
+            .SelectMany(c => c.Value.GetAllowedMoves(this, c.Key))
+            .Count();
     }
 }
