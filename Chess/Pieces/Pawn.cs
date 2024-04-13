@@ -81,14 +81,11 @@ public class Pawn : Piece, IPawn
             Coordinate checkCoordinate = new(coordinate.Rank + move.Rank, coordinate.File);
             if (!board.PieceAndCoordinates.ContainsKey(checkCoordinate))
             {
-                coordinates.Add(checkCoordinate);
+                yield return checkCoordinate;
             }
         }
         foreach (var move in CanTakePiece(board, coordinate))
-        {
-            coordinates.Add(move);
-        }
-        return coordinates;
+            yield return move;      
     }
 
 

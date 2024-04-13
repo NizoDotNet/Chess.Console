@@ -62,7 +62,7 @@ public class StandartChess : IGame
 
     private void SetPieces(Promation promation)
     {
-        Board.SetFen("rnbqk2r/pppp1ppp/7n/2b1p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR", promation);
+        Board.SetFen("rnbqk2r/pppp1ppp/5n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R", promation);
 
     }
 
