@@ -29,8 +29,12 @@ public class StandartChess : IGame
             _renderer.Render(Board);
             if (Board.IsKingFrightened(color))
             {
+                if(Board.GetAllowedMovesCount(color) == 0)
+                {
+                    _renderer.Error("Checkmate!!!");
+                    break;
+                }
                 _renderer.Error("Your king is under attack");
-                _renderer.Error(Board.GetAllowedMovesCount().ToString());
             }
             Coordinate coordinate = _renderer.AskMove(color, Board);
             var piece = Board.PieceAndCoordinates[coordinate];

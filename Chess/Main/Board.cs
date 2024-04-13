@@ -3,7 +3,7 @@ using Chess.Pieces;
 
 namespace Chess.Main;
 
-public class Board
+public class Board 
 {
     public Dictionary<Coordinate, Piece> PieceAndCoordinates { get; set; }
     public Board()
@@ -89,10 +89,15 @@ public class Board
         return opMoves.Contains(kingCoordinate);
     }
 
-    public int GetAllowedMovesCount()
+    public int GetAllowedMovesCount(Color color)
     {
-        return PieceAndCoordinates
-            .SelectMany(c => c.Value.GetAllowedMoves(this, c.Key))
-            .Count();
+        int count = 0;
+        var clone = this.PieceAndCoordinates.Where(c => c.Value.Color == color).ToDictionary();
+        foreach(var p in clone)
+        {
+            count += p.Value.GetAllowedMoves(this, p.Key).Count;
+        }
+        return count;
     }
+
 }

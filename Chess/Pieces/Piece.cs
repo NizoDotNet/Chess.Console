@@ -29,18 +29,25 @@ public abstract class Piece
 
     protected bool KingCheck(Board board, Coordinate from, Coordinate to)
     {
-        var p1 = CheckMove(this, board, from, to);
+        var p1 = CheckMoveStepOne(board, from, to);
         var res = board.IsKingFrightened(this.Color);
-        CheckMove(p1, board, to, from);
+        CheckMoveStepTwo(p1, board, from, to);
         return res;
     }
 
-    public Piece CheckMove(Piece piece, Board board, Coordinate from, Coordinate to)
+    public Piece CheckMoveStepOne(Board board, Coordinate from, Coordinate to)
     {
         var p1 = board.RemovePiece(to);
-        board.RemovePiece(from);
-        if(piece != null) board.SetPiece(piece, to);
+        var p2 = board.RemovePiece(from);
+        board.SetPiece(p2, to);
         return p1;
+    }
+
+    public void CheckMoveStepTwo(Piece piece, Board board, Coordinate from, Coordinate to)
+    {
+        var p1 = board.RemovePiece(to);
+        board.SetPiece(p1, from);
+        if(piece is not null) board.SetPiece(piece, to);
     }
 
 }
