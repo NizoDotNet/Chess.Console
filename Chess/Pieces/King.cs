@@ -71,7 +71,24 @@ internal class King : Piece
 
     public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
     {
-        return base.GetAllowedMoves(board, coordinate);
+        var moves = base.GetAllowedMoves(board, coordinate);
+        var cast = new Coordinate(coordinate.Rank, Helpers.File.C);
+        if(!IsMoved && moves.Contains(cast))
+        {
+            if(KingCheck(board, coordinate, new(coordinate.Rank, Helpers.File.D)) || board.IsKingFrightened(this.Color))
+            {
+                moves.Remove(cast);
+            }
+        }
+        cast.File = Helpers.File.G;
+        if(!IsMoved && moves.Contains(cast))
+        {
+            if(KingCheck(board, coordinate, new(coordinate.Rank, Helpers.File.F)) || board.IsKingFrightened(this.Color))
+            {
+                moves.Remove(cast);
+            }
+        }
+        return moves;
 
     }
     public IEnumerable<MoveCoordinate> MoveCoordinates()
