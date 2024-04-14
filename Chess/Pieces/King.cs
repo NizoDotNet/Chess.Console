@@ -1,6 +1,5 @@
 ﻿using Chess.Helpers;
 using Chess.Main;
-using System.ComponentModel.Design;
 
 namespace Chess.Pieces;
 
@@ -15,31 +14,30 @@ internal class King : Piece
 
     public IEnumerable<Coordinate> Castling(Board board)
     {
-        if(IsCastlingPossible(board, Helpers.File.A))
+        if (IsCastlingPossible(board, Helpers.File.A))
         {
             if (Color == Color.White)
-                if(!board.PieceAndCoordinates.ContainsKey(new(1, Helpers.File.B))
-                && !board.PieceAndCoordinates.ContainsKey(new(1, Helpers.File.C))
-                && !board.PieceAndCoordinates.ContainsKey(new(1, Helpers.File.D)))
-                    yield return new(1,  Helpers.File.C);
-            
-            else
-                if(!board.PieceAndCoordinates.ContainsKey(new(8, Helpers.File.B))
-                && !board.PieceAndCoordinates.ContainsKey(new(8, Helpers.File.C))
-                && !board.PieceAndCoordinates.ContainsKey(new(8, Helpers.File.D)))
-                    yield return new(8, Helpers.File.C);
-            
+            {
+                yield return new(1, Helpers.File.C);
+            }
+
+            else if (Color == Color.Black)
+            {
+
+                yield return new(8, Helpers.File.C);
+            }
+
         }
-        if(IsCastlingPossible(board, Helpers.File.H))
+        if (IsCastlingPossible(board, Helpers.File.H))
         {
-            if(Color == Color.White)
-                if (!board.PieceAndCoordinates.ContainsKey(new(1, Helpers.File.F))
-                && !board.PieceAndCoordinates.ContainsKey(new(1, Helpers.File.G)))
-                    yield return new(1, Helpers.File.G);
-            else
-                if (!board.PieceAndCoordinates.ContainsKey(new(8, Helpers.File.F))
-                && !board.PieceAndCoordinates.ContainsKey(new(8, Helpers.File.G)))
-                    yield return new(8, Helpers.File.G);
+            if (Color == Color.White)
+            {
+                yield return new(1, Helpers.File.G);
+            }
+            else if (Color == Color.Black)
+            {
+                yield return new(8, Helpers.File.G);
+            }
         }
     }
 
@@ -63,8 +61,18 @@ internal class King : Piece
         }
         foreach (var move in Castling(board))
         {
-            yield return move;
+            if (!board.PieceAndCoordinates.TryGetValue(move, out Piece piece)
+                    || piece.Color != this.Color)
+            {
+                yield return move;
+            }
         }
+    }
+
+    public override List<Coordinate> GetAllowedMoves(Board board, Coordinate coordinate)
+    {
+        return base.GetAllowedMoves(board, coordinate);
+
     }
     public IEnumerable<MoveCoordinate> MoveCoordinates()
     {
@@ -80,19 +88,19 @@ internal class King : Piece
 
     public override void MakeMove(Board board, Coordinate from, Coordinate to)
     {
-        if(!isMoved && to.File == Helpers.File.G)
+        if (!isMoved && to.File == Helpers.File.G)
         {
             board.RemovePiece(from);
             board.SetPiece(this, to);
             var piece = board.RemovePiece(new(from.Rank, Helpers.File.H));
             board.SetPiece(piece, new(from.Rank, Helpers.File.F));
         }
-        else if(!IsMoved && to.File == Helpers.File.C)
+        else if (!IsMoved && to.File == Helpers.File.C)
         {
             board.RemovePiece(from);
             board.SetPiece(this, to);
             var piece = board.RemovePiece(new(from.Rank, Helpers.File.A));
-            board.SetPiece(piece, new(from.Rank, Helpers.File.C));
+            board.SetPiece(piece, new(from.Rank, Helpers.File.D));
         }
         else
         {
@@ -110,7 +118,9 @@ internal class King : Piece
             && !((Rook)piece).IsMoved
             && !this.IsMoved
             )
+        {
             return true;
+        }
         return false;
     }
 }
