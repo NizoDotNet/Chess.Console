@@ -4,8 +4,12 @@ using Chess.Main;
 namespace Chess.Pieces;
 public class Pawn : Piece, IPawn
 {
-    private event Promation PromationEvent;
 
+    public Pawn(Color color) : base(color)
+    {
+        isMoved = false;
+
+    }
     public Pawn(Color color, Promation promation) : base(color)
     {
         isMoved = false;
@@ -16,6 +20,8 @@ public class Pawn : Piece, IPawn
     public bool isMoved { get; set; }
 
     public override PieceType Type => PieceType.Pawn;
+
+    public event Promation PromationEvent;
 
     public IEnumerable<Coordinate> CanTakePiece(Board board, Coordinate coordinate)
     {
@@ -111,7 +117,7 @@ public class Pawn : Piece, IPawn
 
     public override void MakeMove(Board board, Coordinate from, Coordinate to)
     {
-        var piece = CheckPromation(to) ? PromationEvent(this.Color) : this;
+        var piece = CheckPromation(to) ? OnPromotion() : this;
         
         board.RemovePiece(from);
         board.RemovePiece(to);
@@ -120,4 +126,8 @@ public class Pawn : Piece, IPawn
 
     }
 
+    public Piece OnPromotion()
+    {
+        return PromationEvent?.Invoke(Color);
+    }
 }

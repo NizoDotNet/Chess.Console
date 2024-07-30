@@ -18,12 +18,12 @@ public class StandartChess : IGame
     public Board Board { get; set; }
 
     public IRenderer Renderer => _renderer;
-
+    public List<string> Moves = new();
     public void StartGame()
     {
         
         SetPieces(_renderer.Promation);
-        
+        Moves.Add(Board.GetFen());
         while (true)
         {
             _renderer.Render(Board);
@@ -63,10 +63,9 @@ public class StandartChess : IGame
     private void SetPieces(Promation promation)
     {
         Board.SetFen("r3k2r/pppp4/8/1b2p3/1B2P3/3n1N2/PPPP1PPP/R3K2R", promation);
-
     }
 
-    private void SetPieces(Color color, int rank)
+    /*private void SetPieces(Color color, int rank)
     {
         Board.PieceAndCoordinates[new Coordinate { File = Helpers.File.A, Rank = rank }] = new Rook(color);
         Board.PieceAndCoordinates[new Coordinate { File = Helpers.File.B, Rank = rank }] = new Knight(color);
@@ -92,5 +91,5 @@ public class StandartChess : IGame
 
 
 
-    }
+    }*/
 }

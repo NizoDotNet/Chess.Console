@@ -1,5 +1,6 @@
 ﻿using Chess.Helpers;
 using Chess.Pieces;
+using System.Text;
 
 namespace Chess.Main;
 
@@ -46,10 +47,56 @@ public class Board
             'p' => new Pawn(color, promation)
         };
     }
+    private char GetPieceLetter(PieceType pieceType, Color color)
+    {
+        char piece = pieceType switch
+        {
+            PieceType.King => 'k',
+            PieceType.Queen => 'q',
+            PieceType.Bishop => 'b',
+            PieceType.Knight => 'k',
+            PieceType.Rook => 'r',
+            PieceType.Pawn => 'p'
+        };
 
+        if(color  == Color.White)
+            piece = char.ToUpper(piece);
+        return piece;
+        
+    }
     public void SetPiece(Piece piece, Coordinate coordinate)
     {
        PieceAndCoordinates[coordinate] = piece; 
+    }
+    public string GetFen()
+    {
+        StringBuilder fen = new();
+        Coordinate coordinate = new();
+        for (int i = 8; i >= 1; i--)
+        {
+            int rank = i;
+            coordinate.Rank = rank;
+            int empty = 0;
+            for(int j = 1; j <= 8; j++)
+            {
+                var file = (Helpers.File)j;
+                coordinate.File = file;
+                if(PieceAndCoordinates.TryGetValue(coordinate, out var piece))
+                {
+                    var letter = GetPieceLetter(piece.Type, piece.Color);
+                    if(empty == 0) fen.Append(letter);
+                    else fen.Append($"{empty}{letter}");
+                    empty = 0;
+                }
+                else
+                {
+                    empty++;
+                }
+            }
+            if (empty != 0) fen.Append(empty);
+            fen.Append('/');
+        }
+        return fen.ToString();
     }
 
     public Piece RemovePiece(Coordinate coordinate)
