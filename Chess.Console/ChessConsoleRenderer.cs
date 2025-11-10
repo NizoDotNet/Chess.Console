@@ -117,9 +117,9 @@ public class ChessConsoleRenderer : IRenderer
                 System.Console.Write($"{i}.{(Helpers.File)i} ");
             }
             System.Console.WriteLine();
-            int fromFileInt = int.Parse(ReadLine());
+            int.TryParse(ReadLine(), out int fromFileInt);
             Helpers.File fromFile = (Helpers.File)fromFileInt;
-            int fromRankInt = int.Parse(ReadLine());
+            int.TryParse(ReadLine(), out int fromRankInt);
             Coordinate from = new Coordinate { File = fromFile, Rank = fromRankInt };
             if (board.PieceAndCoordinates.TryGetValue(from, out var piece) && piece.Color == color)
                 return from;

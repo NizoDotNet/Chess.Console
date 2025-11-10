@@ -1,0 +1,29 @@
+﻿@page "/chess"
+@using Chess.Main.GameFactory
+@inject IServiceProvider ServiceProvider
+
+<div class="chess-board">
+    @foreach (var piece in Game?.Board.PieceAndCoordinates)
+    {
+        <div>@piece.Key: @piece.Value.Type</div>
+    }
+</div>
+
+<button @onclick="OnMove">Make Move</button>
+
+@code {
+    private IGame? Game;
+
+    protected override void OnInitialized()
+    {
+        var factory = new BlazorGameFactory(StateHasChanged);
+        Game = factory.CreateGame();
+        Game.StartGame();
+    }
+
+    private void OnMove()
+    {
+        // Just test re-render for now
+        Game.Renderer.Render(Game.Board);
+    }
+}

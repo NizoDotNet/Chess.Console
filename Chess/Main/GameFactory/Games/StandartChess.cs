@@ -60,10 +60,10 @@ public class StandartChess : IGame
         }
     }
 
-    private void SetPieces(Promation promation)
+   private void SetPieces(Promation promation)
     {
-        Board.SetFen("r3k2r/pppp4/8/1b2p3/1B2P3/3n1N2/PPPP1PPP/R3K2R", promation);
-    }
+        Board.SetFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", promation);
+    } 
 
     /*private void SetPieces(Color color, int rank)
     {
