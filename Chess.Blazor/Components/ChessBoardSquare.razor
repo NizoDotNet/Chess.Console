@@ -1,16 +1,33 @@
 ﻿@code {
     [Parameter] public bool IsDark { get; set; }
-    [Parameter] public string? Piece { get; set; }
+    [Parameter] public Piece? Piece { get; set; }
 }
 
 <div class="@SquareClasses">
-    @if (!string.IsNullOrEmpty(Piece))
+    @if (Piece is not null)
     {
-        <span>@Piece</span>
+        <img class="size-16 md:size-20" src="@GetFigureImage()"/>
     }
 </div>
 
 @code {
     private string SquareClasses =>
         $"w-16 h-16 md:w-20 md:h-20 {(IsDark ? "bg-green-700" : "bg-amber-200")} flex items-center justify-center text-2xl";
+
+
+    public string? GetFigureImage() 
+    {
+        char pieceColor = Piece?.Color == Color.White ? 'w' : 'b';
+        return Piece?.Type switch
+        {
+            PieceType.Queen => $"/figures/queen-{pieceColor}.svg",
+            PieceType.King => $"/figures/King-{pieceColor}.svg",
+            PieceType.Rook => $"/figures/rook-{pieceColor}.svg",
+            PieceType.Knight => $"/figures/knight-{pieceColor}.svg",
+            PieceType.Bishop => $"/figures/bishop-{pieceColor}.svg",
+            PieceType.Pawn => $"/figures/pawn-{pieceColor}.svg",
+            _ => null
+        };
+    }
+
 }
