@@ -5,12 +5,11 @@
     private readonly string[] ranks = { "8", "7", "6", "5", "4", "3", "2", "1" };
 }
 
-<div class="flex flex-col items-center justify-center text-white">
-    <div class="grid grid-cols-9 gap-0">
-        <div></div>
-        @foreach (var file in files)
+<div class="flex flex-col items-center justify-center">
+    <div class="flex">
+        @for(int i = 0; i < files.Length; i++)
         {
-            <div class="w-16 h-6 flex items-center justify-center text-sm">@file</div>
+            <div class="w-16 md:w-20 h-6 flex items-center justify-center text-sm">@files[i]</div>
         }
     </div>
 
@@ -19,7 +18,7 @@
             @for (int row = 0; row < 8; row++)
             {
                 <div class="flex">
-                    <div class="w-6 h-16 flex items-center justify-center text-sm">@ranks[row]</div>
+                    <div class="w-6 h-16 md:h-20 flex items-center justify-center text-sm">@ranks[row]</div>
 
                     @for (int col = 0; col < 8; col++)
                     {
@@ -30,13 +29,10 @@
             }
         </div>
     </div>
-
-    <!-- File labels (bottom) -->
-    <div class="grid grid-cols-9 gap-0 mt-1">
-        <div></div>
-        @foreach (var file in files)
+    <div class="flex">
+        @for (int i = 0; i < files.Length; i++)
         {
-            <div class="w-16 h-6 flex items-center justify-center text-sm">@file</div>
+            <div class="w-16 md:w-20 h-6 flex items-center justify-center text-sm">@files[i]</div>
         }
     </div>
 </div>
