@@ -1,10 +1,47 @@
 ﻿@page "/chess"
 
-<div class="container mx-auto">
-    <div class="flex justify-center align-center">
-        <h1 class="text-3xl text-black">SALAMAM</h1>
+@code {
+    private readonly string[] files = { "A", "B", "C", "D", "E", "F", "G", "H" };
+    private readonly string[] ranks = { "8", "7", "6", "5", "4", "3", "2", "1" };
+}
+
+<div class="flex flex-col items-center justify-center text-white">
+    <div class="grid grid-cols-9 gap-0">
+        <div></div>
+        @foreach (var file in files)
+        {
+            <div class="w-16 h-6 flex items-center justify-center text-sm">@file</div>
+        }
+    </div>
+
+    <div class="flex">
+        <div class="flex flex-col">
+            @for (int row = 0; row < 8; row++)
+            {
+                <div class="flex">
+                    <div class="w-6 h-16 flex items-center justify-center text-sm">@ranks[row]</div>
+
+                    @for (int col = 0; col < 8; col++)
+                    {
+                        bool isDark = (row + col) % 2 == 1;
+                        <ChessBoardSquare IsDark="@isDark" />
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- File labels (bottom) -->
+    <div class="grid grid-cols-9 gap-0 mt-1">
+        <div></div>
+        @foreach (var file in files)
+        {
+            <div class="w-16 h-6 flex items-center justify-center text-sm">@file</div>
+        }
     </div>
 </div>
+
+
 
 
 @code {

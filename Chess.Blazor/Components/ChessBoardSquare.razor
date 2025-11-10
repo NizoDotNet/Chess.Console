@@ -1,0 +1,16 @@
+﻿@code {
+    [Parameter] public bool IsDark { get; set; }
+    [Parameter] public string? Piece { get; set; }
+}
+
+<div class="@SquareClasses">
+    @if (!string.IsNullOrEmpty(Piece))
+    {
+        <span>@Piece</span>
+    }
+</div>
+
+@code {
+    private string SquareClasses =>
+        $"w-16 h-16 md:w-20 md:h-20 {(IsDark ? "bg-green-700" : "bg-amber-200")} flex items-center justify-center text-2xl";
+}
