@@ -28,7 +28,9 @@
                         bool isDark = (rank + file) % 2 == 1;
                         bool isAvailable = availableMoves.Any(m => m.Rank == rank && (int)m.File == file);
 
-                        <ChessBoardSquare OnPieceClickCallback="OnPieceClick"
+                        <ChessBoardSquare 
+                        OnPieceClickCallback="OnPieceClick"
+                        OnMakeMoveCallback="OnMove"
                         IsAvailableMove="@isAvailable"
                         IsDark="@isDark"
                         Piece="@GetPiece(rank, file)"
@@ -53,6 +55,7 @@
 @code {
     private ClientSideGame game = new(null);
     private List<Coordinate> availableMoves = [];
+    private Coordinate? selectedPieceCoordinate = default;
 
     protected override void OnInitialized()
     {
@@ -65,11 +68,26 @@
         return null;
     }
 
-    public async Task OnPieceClick((Piece piece, int rank, int file) res)
+    public void OnPieceClick((Piece piece, int rank, int file) res)
     {
-        var moves = game.GetAllowedMoves(res.piece, new Coordinate(res.rank, (File)res.file));
-        availableMoves = moves;
+        if (res.piece.Color != game.State.ColorTurn)
+            return;
+        selectedPieceCoordinate = new Coordinate(res.rank, (File)res.file);
+        availableMoves = game.GetAllowedMoves(res.piece, selectedPieceCoordinate);
         StateHasChanged();
+    }
+
+    public void OnMove(( int rank, int file) res)
+    {
+        if (selectedPieceCoordinate is null)
+            return;
+
+        var piece = GetPiece(selectedPieceCoordinate.Rank, (int)selectedPieceCoordinate.File)!;
+        game.MakeMove(piece, selectedPieceCoordinate!, new Coordinate(res.rank, (File)res.file));
+        selectedPieceCoordinate = default;
+        availableMoves = [];
+        StateHasChanged();
+
     }
   
 }
