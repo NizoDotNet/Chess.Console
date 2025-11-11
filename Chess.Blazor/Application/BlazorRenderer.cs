@@ -6,9 +6,21 @@ namespace Chess.Blazor.Application;
 
 public class BlazorRenderer : IRenderer
 {
+    public event Func<Coordinate>? OnAskMove;
+
     public Coordinate AskMove(Color color, Board board)
     {
-        throw new NotImplementedException();
+        if (OnAskMove != null)
+        {
+            while (true)
+            {
+                var from = OnAskMove.Invoke();
+                if (board.PieceAndCoordinates.TryGetValue(from, out var piece) && piece.Color == color)
+                    return from;
+            }
+        }
+        throw new Exception("Ask Move exception :(");
+
     }
 
     public void Error(string message)

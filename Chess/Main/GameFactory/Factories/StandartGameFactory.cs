@@ -11,5 +11,5 @@ public class StandartGameFactory : IGameFactory
     {
         this.renderer = renderer;
     }
-    public IGame CreateGame() => new StandartChess(renderer);
+    public IGame CreateGame() => new ConsoleChess(renderer);
 }

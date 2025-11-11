@@ -4,11 +4,11 @@ using Chess.Pieces;
 namespace Chess.Main.GameFactory.Games;
 
 
-public class StandartChess : IGame
+public class ConsoleChess : IGame
 {
     private readonly IRenderer _renderer;
     private Color color;
-    public StandartChess(IRenderer renderer)
+    public ConsoleChess(IRenderer renderer)
     {
         Board = new Board();
         _renderer = renderer;
