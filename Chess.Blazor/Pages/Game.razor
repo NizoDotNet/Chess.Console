@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Chess.Blazor.Application.Main
 @using Chess.Main.GameFactory
 @using Chess.Main.GameFactory.Factories
 
@@ -43,16 +44,15 @@
 
 
 @code {
-    IGameFactory GameFactory = new NoRenderFactory();
-    public IGame Chess;
+    private ClientSideGame game = new(null);
+
     protected override void OnInitialized()
     {
-        Chess = GameFactory.CreateGame();
-        Chess.StartGame();
+        
     }
     public Piece? GetPiece(int rank, int file) 
     {
-        if (Chess.Board.PieceExist(rank, (File)(file), out Piece piece, out Coordinate _))
+        if (game.Board.PieceExist(rank, (File)(file), out Piece piece, out Coordinate _))
             return piece;
         return null;
     }

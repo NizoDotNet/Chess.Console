@@ -39,9 +39,10 @@ public sealed class ClientSideGame
     public event Action OnPiecedMoved;
     public event Action OnMate;
     public event Action OnCheck;
-    public ClientSideGame()
+    public ClientSideGame(string? fen)
     {
         Board = new();
+        Board.SetFen(fen ?? "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", null);
         State = new();
         OnPiecedMoved += State.ChangeColor;
         OnPiecedMoved += CheckKing;
