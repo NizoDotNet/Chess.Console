@@ -9,9 +9,8 @@
       "Courier New", monospace;
     --color-amber-200: oklch(92.4% 0.12 95.746);
     --color-green-700: oklch(52.7% 0.154 150.069);
+    --color-emerald-400: oklch(76.5% 0.177 163.223);
     --color-blue-600: oklch(54.6% 0.245 262.881);
-    --color-gray-700: oklch(37.3% 0.034 259.733);
-    --color-gray-900: oklch(21% 0.034 264.665);
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
@@ -21,7 +20,6 @@
     --text-2xl--line-height: calc(2 / 1.5);
     --text-3xl: 1.875rem;
     --text-3xl--line-height: calc(2.25 / 1.875);
-    --font-weight-bold: 700;
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --default-transition-duration: 150ms;
@@ -524,12 +522,22 @@
   .table-row {
     display: table-row;
   }
+  .size-5 {
+    width: calc(var(--spacing) * 5);
+    height: calc(var(--spacing) * 5);
+  }
   .size-16 {
     width: calc(var(--spacing) * 16);
     height: calc(var(--spacing) * 16);
   }
+  .h-5 {
+    height: calc(var(--spacing) * 5);
+  }
   .h-6 {
     height: calc(var(--spacing) * 6);
+  }
+  .h-10 {
+    height: calc(var(--spacing) * 10);
   }
   .h-16 {
     height: calc(var(--spacing) * 16);
@@ -552,8 +560,14 @@
   .min-h-screen {
     min-height: 100vh;
   }
+  .w-5 {
+    width: calc(var(--spacing) * 5);
+  }
   .w-6 {
     width: calc(var(--spacing) * 6);
+  }
+  .w-10 {
+    width: calc(var(--spacing) * 10);
   }
   .w-16 {
     width: calc(var(--spacing) * 16);
@@ -698,6 +712,9 @@
   .rounded {
     border-radius: 0.25rem;
   }
+  .rounded-full {
+    border-radius: calc(infinity * 1px);
+  }
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
@@ -726,8 +743,18 @@
     border-style: var(--tw-border-style);
     border-width: 5px;
   }
+  .border-8 {
+    border-style: var(--tw-border-style);
+    border-width: 8px;
+  }
   .border-black {
     border-color: var(--color-black);
+  }
+  .border-emerald-400\/70 {
+    border-color: color-mix(in srgb, oklch(76.5% 0.177 163.223) 70%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-emerald-400) 70%, transparent);
+    }
   }
   .border-white {
     border-color: var(--color-white);
@@ -737,6 +764,12 @@
   }
   .bg-black {
     background-color: var(--color-black);
+  }
+  .bg-emerald-400\/50 {
+    background-color: color-mix(in srgb, oklch(76.5% 0.177 163.223) 50%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-emerald-400) 50%, transparent);
+    }
   }
   .bg-green-700 {
     background-color: var(--color-green-700);
