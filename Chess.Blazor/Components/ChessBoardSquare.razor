@@ -1,69 +1,61 @@
-﻿@code {
+﻿
+<div class="@SquareClasses">
+    @if (Piece is not null)
+    {
+        <div @onclick="HandleClick" class="@ClickTargetClasses">
+            <img class="rounded-full size-16 md:size-20 transition-transform hover:scale-105" src="@GetFigureImage()" />
+        </div>
+    }
+    else if (IsAvailableMove)
+    {
+        <div @onclick="HandleClick" class="@AvailableMoveIndicator"></div>
+    }
+    else
+    {
+        <div class="w-full h-full" @onclick="() => RemoveMoves.InvokeAsync()"></div>
+    }
+</div>
+
+@code {
     [Parameter] public bool IsDark { get; set; }
     [Parameter] public Piece? Piece { get; set; }
     [Parameter] public int Rank { get; set; }
     [Parameter] public int File { get; set; }
     [Parameter] public bool IsAvailableMove { get; set; }
+
     [Parameter] public EventCallback<(Piece piece, int rank, int file)> OnPieceClickCallback { get; set; }
     [Parameter] public EventCallback<(int rank, int file)> OnMakeMoveCallback { get; set; }
+    [Parameter] public EventCallback RemoveMoves { get; set; }
 
-}
-
-<div class="@SquareClasses">
-    @if (Piece is not null)
-    {
-        @if (IsAvailableMove)
-        {
-            <div @onclick="() => OnMove()" class="@AvailableMoveSquere">
-                <img class="size-16 md:size-20" src="@GetFigureImage()" />
-            </div>
-        }
-        else
-        {
-            <div @onclick="() => OnPieceClick()" class="cursor-pointer">
-                <img class="size-16 md:size-20" src="@GetFigureImage()" />
-            </div>
-        }
-    }
-    else if(IsAvailableMove)
-    {
-        <div @onclick="() => OnMove()" class="@AvailableMoveSquere">
-            
-        </div>
-    }
-</div>
-
-@code {
     private string SquareClasses =>
-        $"w-16 h-16 md:w-20 md:h-20 {(IsDark ? "bg-green-700" : "bg-amber-200")} flex items-center justify-center text-2xl";
+        $"relative w-16 h-16 md:w-20 md:h-20 " +
+        $"{(IsDark ? "bg-green-700" : "bg-amber-200")} " +
+        "flex items-center justify-center text-2xl select-none";
 
-    private string AvailableMoveSquere =>
-        $"cursor-pointer rounded-full {(Piece is null ? "h-5 w-5 bg-emerald-400/50" : "border-8 border-emerald-400/70")}";
+    private string AvailableMoveIndicator =>
+        "absolute inset-0 cursor-pointer flex items-center justify-center " +
+        "after:content-[''] after:w-5 after:h-5 md:after:w-6 md:after:h-6 " +
+        "after:bg-emerald-400/50 after:rounded-full hover:after:bg-emerald-400/70 transition-colors";
 
-    public string? GetFigureImage() 
+    private string ClickTargetClasses =>
+        IsAvailableMove
+            ? "cursor-pointer w-full h-full rounded-full border-4 border-emerald-400/70 flex items-center justify-center"
+            : "cursor-pointer";
+
+    private async Task HandleClick()
     {
-        char pieceColor = Piece?.Color == Color.White ? 'w' : 'b';
-        return Piece?.Type switch
-        {
-            PieceType.Queen => $"/figures/queen-{pieceColor}.svg",
-            PieceType.King => $"/figures/King-{pieceColor}.svg",
-            PieceType.Rook => $"/figures/rook-{pieceColor}.svg",
-            PieceType.Knight => $"/figures/knight-{pieceColor}.svg",
-            PieceType.Bishop => $"/figures/bishop-{pieceColor}.svg",
-            PieceType.Pawn => $"/figures/pawn-{pieceColor}.svg",
-            _ => null
-        };
+        if (IsAvailableMove)
+            await OnMakeMoveCallback.InvokeAsync((Rank, File));
+        else if (Piece is not null)
+            await OnPieceClickCallback.InvokeAsync((Piece, Rank, File));
     }
 
-    public async Task OnPieceClick()
+    // 🔹 Get image path
+    private string? GetFigureImage()
     {
-        await OnPieceClickCallback.InvokeAsync((Piece!, Rank, File));
-       
-    }
-
-    public async Task OnMove()
-    {
-        await OnMakeMoveCallback.InvokeAsync((Rank, File));
-
+        if (Piece is null) return null;
+        char pieceColor = Piece.Color == Color.White ? 'w' : 'b';
+        string type = Piece.Type.ToString().ToLower();
+        return $"/figures/{type}-{pieceColor}.svg";
     }
 }

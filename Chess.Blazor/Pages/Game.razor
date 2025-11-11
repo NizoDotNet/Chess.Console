@@ -8,7 +8,7 @@
     private readonly string[] ranks = { "8", "7", "6", "5", "4", "3", "2", "1" };
 }
 
-<div class="flex flex-col items-center justify-center">
+<div class="flex flex-col items-center justify-center select-none">
     <div class="flex">
         @for(int i = 0; i < files.Length; i++)
         {
@@ -21,7 +21,7 @@
             @for (int rank = 8; rank > 0; rank--)
             {
                 <div class="flex">
-                    <div class="w-6 h-16 md:h-20 flex items-center justify-center text-sm">@ranks[rank - 1]</div>
+                    <div class="w-6 h-16 md:h-20 flex items-center justify-center text-sm">@ranks[8 - rank]</div>
 
                     @for (int file = 1; file <= 8; file++)
                     {
@@ -31,6 +31,7 @@
                         <ChessBoardSquare 
                         OnPieceClickCallback="OnPieceClick"
                         OnMakeMoveCallback="OnMove"
+                        RemoveMoves="RemoveAvailableMoves"
                         IsAvailableMove="@isAvailable"
                         IsDark="@isDark"
                         Piece="@GetPiece(rank, file)"
@@ -89,5 +90,10 @@
         StateHasChanged();
 
     }
-  
+
+    public void RemoveAvailableMoves()
+    {
+        availableMoves = [];
+        StateHasChanged();
+    }
 }
