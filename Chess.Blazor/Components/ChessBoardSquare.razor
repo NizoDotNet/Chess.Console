@@ -1,12 +1,33 @@
 ﻿@code {
     [Parameter] public bool IsDark { get; set; }
     [Parameter] public Piece? Piece { get; set; }
+    [Parameter] public int Rank { get; set; }
+    [Parameter] public int File { get; set; }
+    [Parameter] public bool IsAvailableMove { get; set; }
+    [Parameter] public EventCallback<(Piece piece, int rank, int file)> OnPieceClickCallback { get; set; }
+
 }
 
 <div class="@SquareClasses">
     @if (Piece is not null)
     {
-        <img class="size-16 md:size-20 cursor-pointer" src="@GetFigureImage()"/>
+        @if (IsAvailableMove)
+        {
+            <div class="@AvailableMoveSquere">
+                <img class="size-16 md:size-20" src="@GetFigureImage()" />
+            </div>
+        }
+        else
+        {
+            <div @onclick="() => OnPieceClick()" class="cursor-pointer">
+                <img class="size-16 md:size-20" src="@GetFigureImage()" />
+            </div>
+        }
+    }
+    else if(IsAvailableMove)
+    {
+        <div class="@AvailableMoveSquere">
+        </div>
     }
 </div>
 
@@ -14,6 +35,8 @@
     private string SquareClasses =>
         $"w-16 h-16 md:w-20 md:h-20 {(IsDark ? "bg-green-700" : "bg-amber-200")} flex items-center justify-center text-2xl";
 
+    private string AvailableMoveSquere =>
+        $"cursor-pointer h-full w-full rounded-full {(Piece is null ? "bg-emerald-400/50" : "border-8 border-emerald-400/70")}";
 
     public string? GetFigureImage() 
     {
@@ -30,4 +53,9 @@
         };
     }
 
+    public async Task OnPieceClick()
+    {
+        await OnPieceClickCallback.InvokeAsync((Piece!, Rank, File));
+       
+    }
 }

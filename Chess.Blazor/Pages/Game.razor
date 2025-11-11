@@ -18,15 +18,22 @@
 
     <div class="flex">
         <div class="flex flex-col">
-            @for (int row = 7; row >= 0; row--)
+            @for (int rank = 8; rank > 0; rank--)
             {
                 <div class="flex">
-                    <div class="w-6 h-16 md:h-20 flex items-center justify-center text-sm">@ranks[row]</div>
+                    <div class="w-6 h-16 md:h-20 flex items-center justify-center text-sm">@ranks[rank - 1]</div>
 
-                    @for (int col = 0; col < 8; col++)
+                    @for (int file = 1; file <= 8; file++)
                     {
-                        bool isDark = (row + col) % 2 == 1;
-                        <ChessBoardSquare IsDark="@isDark" Piece="@GetPiece(row+1, col+1)"/>
+                        bool isDark = (rank + file) % 2 == 1;
+                        bool isAvailable = availableMoves.Any(m => m.Rank == rank && (int)m.File == file);
+
+                        <ChessBoardSquare OnPieceClickCallback="OnPieceClick"
+                        IsAvailableMove="@isAvailable"
+                        IsDark="@isDark"
+                        Piece="@GetPiece(rank, file)"
+                        Rank="rank"
+                        File="file" />
                     }
                 </div>
             }
@@ -45,10 +52,11 @@
 
 @code {
     private ClientSideGame game = new(null);
+    private List<Coordinate> availableMoves = [];
 
     protected override void OnInitialized()
     {
-        
+
     }
     public Piece? GetPiece(int rank, int file) 
     {
@@ -56,6 +64,14 @@
             return piece;
         return null;
     }
-    
+
+    public async Task OnPieceClick((Piece piece, int rank, int file) res)
+    {
+        var moves = game.GetAllowedMoves(res.piece, new Coordinate(res.rank, (File)res.file));
+        if (moves.Count != 0)
+            availableMoves = moves;
+        Console.WriteLine("G");
+        StateHasChanged();
+    }
   
 }
