@@ -10,16 +10,7 @@ public class BlazorRenderer : IRenderer
 
     public Coordinate AskMove(Color color, Board board)
     {
-        if (OnAskMove != null)
-        {
-            while (true)
-            {
-                var from = OnAskMove.Invoke();
-                if (board.PieceAndCoordinates.TryGetValue(from, out var piece) && piece.Color == color)
-                    return from;
-            }
-        }
-        throw new Exception("Ask Move exception :(");
+        throw new NotImplementedException();
 
     }
 

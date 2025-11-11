@@ -17,7 +17,6 @@ public class ConsoleChess : IGame
 
     public Board Board { get; set; }
 
-    public IRenderer Renderer => _renderer;
     public List<string> Moves = new();
     public void StartGame()
     {
