@@ -11,8 +11,8 @@ public class Rook : Piece
     private bool isMoved = false;
     public Rook(Color color) : base(color)
     {
-        horizantal = new Horizantal();
-        vertical = new Vertical();
+        horizantal = new Vertical();
+        vertical = new Horizontal();
     }
 
     public bool IsMoved => isMoved;

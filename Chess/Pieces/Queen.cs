@@ -10,8 +10,8 @@ public class Queen : Piece
     private readonly ILongRangeMove horizantal, vertical, diagonalLeft, diagonalRight;
     public Queen(Color color) : base(color)
     {
-        horizantal = new Horizantal();
-        vertical = new Vertical();
+        horizantal = new Vertical();
+        vertical = new Horizontal();
         diagonalLeft = new DiagonalLeft();
         diagonalRight = new DiagonalRight();    
 
