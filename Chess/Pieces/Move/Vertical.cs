@@ -11,7 +11,9 @@ public class Vertical : ILongRangeMove
 
         for (int i = coordinate.Rank - 1; i >= 1; i--)
         {
-            if (board.PieceExist(i, file, out Piece piece, out Coordinate cr))
+            var cr = new Coordinate(i, file);
+
+            if (board.PieceExist(i, file, out Piece piece, out cr))
             {
                 if (piece.Color != color) yield return cr;
                 break;
@@ -21,7 +23,9 @@ public class Vertical : ILongRangeMove
 
         for(int i = coordinate.Rank + 1; i <= 8; i++)
         {
-            if(board.PieceExist(i, file, out Piece piece, out Coordinate cr))
+            var cr = new Coordinate(i, file);
+
+            if (board.PieceExist(i, file, out Piece piece, out cr))
             {
                 if (piece.Color != color) yield return cr;
                 break;
