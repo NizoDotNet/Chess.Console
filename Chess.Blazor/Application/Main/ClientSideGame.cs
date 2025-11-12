@@ -45,6 +45,7 @@ public sealed class ClientSideGame
         Board.SetFen(fen ?? "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", null);
         State = new();
         OnPiecedMoved += State.ChangeColor;
+        OnPiecedMoved += () => State.ChangeState(Helpers.State.None);
         OnPiecedMoved += CheckKing;
         OnMate += () => State.ChangeState(Helpers.State.Mate);
         OnCheck += () => State.ChangeState(Helpers.State.Check);
@@ -76,11 +77,12 @@ public sealed class ClientSideGame
     {
         if (Board.IsKingFrightened(State.ColorTurn))
         {
+            OnCheck?.Invoke();
+
             if (Board.GetAllowedMovesCount(State.ColorTurn) == 0)
             {
                 OnMate?.Invoke();
             }
-           OnCheck?.Invoke();
         }
     }
     

@@ -60,7 +60,8 @@
 
     protected override void OnInitialized()
     {
-
+        game.OnCheck += OnCheck;
+        game.OnMate += OnMate;
     }
     public Piece? GetPiece(int rank, int file) 
     {
@@ -88,6 +89,17 @@
         selectedPieceCoordinate = default;
         availableMoves = [];
         StateHasChanged();
+
+    }
+
+    public void OnCheck()
+    {
+        Console.WriteLine("Check");
+    }
+
+    public void OnMate()
+    {
+        Console.WriteLine("Mate");
 
     }
 
