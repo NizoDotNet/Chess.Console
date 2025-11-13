@@ -2,6 +2,7 @@
 @using Chess.Blazor.Application.Main
 @using Chess.Main.GameFactory
 @using Chess.Main.GameFactory.Factories
+@inject ClientSideGame game
 
 @code {
     private readonly string[] files = { "A", "B", "C", "D", "E", "F", "G", "H" };
@@ -29,14 +30,14 @@
                         bool isAvailable = availableMoves.Any(m => m.Rank == rank && (int)m.File == file);
 
                         <ChessBoardSquare 
-                        OnPieceClickCallback="OnPieceClick"
-                        OnMakeMoveCallback="OnMove"
-                        RemoveMoves="RemoveAvailableMoves"
-                        IsAvailableMove="@isAvailable"
-                        IsDark="@isDark"
-                        Piece="@GetPiece(rank, file)"
-                        Rank="rank"
-                        File="file" />
+                            OnPieceClickCallback="OnPieceClick"
+                            OnMakeMoveCallback="OnMove"
+                            RemoveMoves="RemoveAvailableMoves"
+                            IsAvailableMove="@isAvailable"
+                            IsDark="@isDark"
+                            Piece="@GetPiece(rank, file)"
+                            Rank="rank"
+                            File="file" />
                     }
                 </div>
             }
@@ -54,7 +55,6 @@
 
 
 @code {
-    private ClientSideGame game = new(null);
     private List<Coordinate> availableMoves = [];
     private Coordinate? selectedPieceCoordinate = default;
 

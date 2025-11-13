@@ -1,10 +1,22 @@
-﻿
+﻿@using Chess.Blazor.Application.Main
+@inject ClientSideGame game
+
 <div class="@SquareClasses">
     @if (Piece is not null)
     {
-        <div @onclick="HandleClick" class="@ClickTargetClasses">
-            <img class="rounded-full size-16 md:size-20 transition-transform hover:scale-105" src="@GetFigureImage()" />
-        </div>
+        @if(game.State.State == State.Check && Piece.Type == PieceType.King)
+        {
+            <div @onclick="HandleClick" class="cursor-pointer w-full h-full rounded-full border-4 border-red-400 flex items-center justify-center">
+                <img class="rounded-full size-16 md:size-20 transition-transform hover:scale-105" src="@GetFigureImage()" />
+            </div>
+        }
+        else
+        {
+            <div @onclick="HandleClick" class="@ClickTargetClasses">
+                <img class="rounded-full size-16 md:size-20 transition-transform hover:scale-105" src="@GetFigureImage()" />
+            </div>
+        }
+        
     }
     else if (IsAvailableMove)
     {
