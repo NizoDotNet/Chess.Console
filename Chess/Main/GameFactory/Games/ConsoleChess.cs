@@ -18,10 +18,10 @@ public class ConsoleChess : IGame
     public Board Board { get; set; }
 
     public List<string> Moves = new();
-    public void StartGame()
+    public void StartGame(string? fen = null)
     {
         
-        SetPieces(_renderer.Promation);
+        SetPieces(fen, _renderer.Promation);
         Moves.Add(Board.GetFen());
         while (true)
         {
@@ -59,36 +59,9 @@ public class ConsoleChess : IGame
         }
     }
 
-   private void SetPieces(Promation promation)
+    public void SetPieces(string? fen, Promation promation)
     {
-        Board.SetFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", promation);
+        Board.SetFen(fen ?? "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", promation);
     } 
 
-    /*private void SetPieces(Color color, int rank)
-    {
-        Board.PieceAndCoordinates[new Coordinate { File = Helpers.File.A, Rank = rank }] = new Rook(color);
-        Board.PieceAndCoordinates[new Coordinate { File = Helpers.File.B, Rank = rank }] = new Knight(color);
-        Board.PieceAndCoordinates[new Coordinate { File = Helpers.File.C, Rank = rank }] = new Bishop(color);
-
-        Board.PieceAndCoordinates[new Coordinate { File = Helpers.File.D, Rank = rank }] = new Queen(color);
-        Board.PieceAndCoordinates[new Coordinate { File = Helpers.File.E, Rank = rank }] = new King(color);
-
-        Board.PieceAndCoordinates[new Coordinate { File = Helpers.File.F, Rank = rank }] = new Bishop(color);
-        Board.PieceAndCoordinates[new Coordinate { File = Helpers.File.G, Rank = rank }] = new Knight(color);
-        Board.PieceAndCoordinates[new Coordinate { File = Helpers.File.H, Rank = rank }] = new Rook(color);
-        switch (color)
-        {
-            case Color.White:
-                rank++;
-                break;
-            case Color.Black:
-                rank--;
-                break;
-        }
-        for (int i = 1; i <= 8; i++)
-            Board.PieceAndCoordinates[new Coordinate { File = (Helpers.File)i, Rank = rank }] = new Pawn(color, _renderer.Promation);
-
-
-
-    }*/
 }

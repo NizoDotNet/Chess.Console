@@ -14,6 +14,7 @@ public class Board
 
     public void SetFen(string fen, Promation promation)
     {
+        PieceAndCoordinates = [];
         string[] rows = fen.Split("/");
         for(int i = 0; i < rows.Length; i++)
         {

@@ -105,14 +105,14 @@ internal class King : Piece
 
     public override void MakeMove(Board board, Coordinate from, Coordinate to)
     {
-        if (!isMoved && to.File == Helpers.File.G)
+        if (!isMoved && to.File == Helpers.File.G && from.Rank == 8)
         {
             board.RemovePiece(from);
             board.SetPiece(this, to);
             var piece = board.RemovePiece(new(from.Rank, Helpers.File.H));
             board.SetPiece(piece, new(from.Rank, Helpers.File.F));
         }
-        else if (!IsMoved && to.File == Helpers.File.C)
+        else if (!IsMoved && to.File == Helpers.File.C && from.Rank == 1)
         {
             board.RemovePiece(from);
             board.SetPiece(this, to);
