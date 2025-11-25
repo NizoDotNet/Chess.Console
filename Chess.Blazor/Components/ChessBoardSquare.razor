@@ -1,5 +1,5 @@
 ﻿@using Chess.Blazor.Application.Main
-@inject ClientSideGame game
+@* @inject ClientSideGame game *@
 
 <div class="@SquareClasses">
     @if (Piece is not null)
@@ -35,6 +35,8 @@
 </div>
 
 @code {
+    [Parameter] public ClientSideGame game { get; set; }
+
     [Parameter] public bool IsDark { get; set; }
     [Parameter] public Piece? Piece { get; set; }
     [Parameter] public int Rank { get; set; }
