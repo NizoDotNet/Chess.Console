@@ -1,7 +1,7 @@
 ﻿@using Chess.Blazor.Application.Main
 @inject ClientSideGame game
 
-<div class="@SquareClasses">
+<div class="@(SquareClasses + " " + GetRotation())">
     @if (Piece is not null)
     {
         @if (game.State.State == State.Check && game.State.ColorTurn == Piece.Color && Piece.Type == PieceType.King)
@@ -74,5 +74,10 @@
         char pieceColor = Piece.Color == Color.White ? 'w' : 'b';
         string type = Piece.Type.ToString().ToLower();
         return $"/figures/{type}-{pieceColor}.svg";
+    }
+
+    public string GetRotation()
+    {
+        return game.State.ColorTurn == Color.White ? "" : "rotate-180";
     }
 }

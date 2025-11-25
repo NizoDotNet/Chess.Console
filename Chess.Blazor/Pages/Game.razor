@@ -18,7 +18,7 @@
     </div>
 
     <div class="flex">
-        <div class="flex flex-col">
+        <div class=@("flex flex-col " + GetRotation())>
             @for (int rank = 8; rank > 0; rank--)
             {
                 <div class="flex">
@@ -26,18 +26,18 @@
 
                     @for (int file = 1; file <= 8; file++)
                     {
-                        bool isDark = (rank + file) % 2 == 1;
+                        bool isDark = (rank + file) % 2 == 0;
                         bool isAvailable = availableMoves.Any(m => m.Rank == rank && (int)m.File == file);
 
                         <ChessBoardSquare 
-                            OnPieceClickCallback="OnPieceClick"
-                            OnMakeMoveCallback="OnMove"
-                            RemoveMoves="RemoveAvailableMoves"
-                            IsAvailableMove="@isAvailable"
-                            IsDark="@isDark"
-                            Piece="@GetPiece(rank, file)"
-                            Rank="rank"
-                            File="file" />
+                        OnPieceClickCallback="OnPieceClick"
+                        OnMakeMoveCallback="OnMove"
+                        RemoveMoves="RemoveAvailableMoves"
+                        IsAvailableMove="@isAvailable"
+                        IsDark="@isDark"
+                        Piece="@GetPiece(rank, file)"
+                        Rank="rank"
+                        File="file" />
                     }
                 </div>
             }
@@ -63,6 +63,12 @@
         game.OnCheck += OnCheck;
         game.OnMate += OnMate;
     }
+
+    public string GetRotation()
+    {
+        return game.State.ColorTurn == Color.White ? "" : "rotate-180";
+    }
+
     public Piece? GetPiece(int rank, int file) 
     {
         if (game.Board.PieceExist(rank, (File)(file), out Piece piece, out Coordinate _))
