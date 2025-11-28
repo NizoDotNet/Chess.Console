@@ -1,5 +1,4 @@
 ﻿@using Chess.Blazor.Application.Main
-@inject ClientSideGame game
 
 <div class="@(SquareClasses + " " + GetRotation())">
     @if (Piece is not null)
@@ -22,7 +21,7 @@
                 <img class="rounded-full size-16 md:size-20 transition-transform hover:scale-105" src="@GetFigureImage()" />
             </div>
         }
-        
+
     }
     else if (IsAvailableMove)
     {
@@ -40,7 +39,7 @@
     [Parameter] public int Rank { get; set; }
     [Parameter] public int File { get; set; }
     [Parameter] public bool IsAvailableMove { get; set; }
-
+    [Parameter] public ClientSideGame game { get; set;  }
     [Parameter] public EventCallback<(Piece piece, int rank, int file)> OnPieceClickCallback { get; set; }
     [Parameter] public EventCallback<(int rank, int file)> OnMakeMoveCallback { get; set; }
     [Parameter] public EventCallback RemoveMoves { get; set; }
