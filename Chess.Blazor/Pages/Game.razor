@@ -16,10 +16,9 @@
     private ClientSideGame game = null!;
 
 
-    public static string? FEN = null;
     protected override void OnInitialized()
     {
-        game = new(string.IsNullOrEmpty(FEN) ? null : FEN);
+        game = new(null);
         game.OnCheck += OnCheck;
         game.OnMate += OnMate;
     }

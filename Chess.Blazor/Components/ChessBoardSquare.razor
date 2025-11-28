@@ -43,6 +43,8 @@
     [Parameter] public EventCallback<(Piece piece, int rank, int file)> OnPieceClickCallback { get; set; }
     [Parameter] public EventCallback<(int rank, int file)> OnMakeMoveCallback { get; set; }
     [Parameter] public EventCallback RemoveMoves { get; set; }
+    [Parameter] public bool RotateBoard { get; set; } = false;
+    [Parameter] public Color InitialColor { get; set; } = Color.White;
 
     private string SquareClasses =>
         $"relative w-16 h-16 md:w-20 md:h-20 " +
@@ -77,6 +79,7 @@
 
     public string GetRotation()
     {
-        return game.State.ColorTurn == Color.White ? "" : "rotate-180";
+        if (!RotateBoard) return "";
+        return game.State.ColorTurn == InitialColor ? "" : "rotate-180";
     }
 }

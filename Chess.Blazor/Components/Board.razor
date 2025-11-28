@@ -4,56 +4,84 @@
     private readonly string[] ranks = { "8", "7", "6", "5", "4", "3", "2", "1" };
 }
 
-<div class="flex flex-col items-center justify-center select-none">
-    <div class="flex">
-        @for (int i = 0; i < files.Length; i++)
-        {
-            <div class="w-16 md:w-20 h-6 flex items-center justify-center text-sm">@files[i]</div>
-        }
-    </div>
-
-    <div class="flex">
-        <div class=@("flex flex-col " + GetRotation())>
-            @for (int rank = 8; rank > 0; rank--)
-            {
-                <div class="flex">
-                    <div class="w-6 h-16 md:h-20 flex items-center justify-center text-sm">@ranks[8 - rank]</div>
-
-                    @for (int file = 1; file <= 8; file++)
-                    {
-                        bool isDark = (rank + file) % 2 == 0;
-                        bool isAvailable = availableMoves.Any(m => m.Rank == rank && (int)m.File == file);
-
-                        <ChessBoardSquare OnPieceClickCallback="OnPieceClick"
-                        OnMakeMoveCallback="OnMove"
-                        RemoveMoves="RemoveAvailableMoves"
-                        IsAvailableMove="@isAvailable"
-                        IsDark="@isDark"
-                        Piece="@GetPiece(rank, file)"
-                        Rank="rank"
-                        File="file" />
-                    }
-                </div>
-            }
-        </div>
-
-    </div>
-    <div class="flex">
-        @for (int i = 0; i < files.Length; i++)
-        {
-            <div class="w-16 md:w-20 h-6 flex items-center justify-center text-sm">@files[i]</div>
-        }
-    </div>
+<div class="flex">
+    @for (int i = 0; i < files.Length; i++)
+    {
+        <div class="w-16 md:w-20 h-6 flex items-center justify-center text-sm">@files[i]</div>
+    }
 </div>
 
+<div class="flex">
+    <div class=@("flex flex-col " + GetRotation())>
+        @for (int rank = 8; rank > 0; rank--)
+        {
+            <div class="flex">
+                <div class="w-6 h-16 md:h-20 flex items-center justify-center text-sm">@ranks[8 - rank]</div>
+
+                @for (int file = 1; file <= 8; file++)
+                {
+                    bool isDark = (rank + file) % 2 == 0;
+                    bool isAvailable = availableMoves.Any(m => m.Rank == rank && (int)m.File == file);
+
+                    <ChessBoardSquare OnPieceClickCallback="OnPieceClick"
+                    OnMakeMoveCallback="OnMove"
+                    RemoveMoves="RemoveAvailableMoves"
+                    IsAvailableMove="@isAvailable"
+                    IsDark="@isDark"
+                    Piece="@GetPiece(rank, file)"
+                    Rank="rank"
+                    File="file"
+                    RotateBoard="rotateBoard"
+                    InitialColor="initialColor"
+                    game="game"/>
+                }
+            </div>
+        }
+    </div>
+
+</div>
+<div class="flex">
+    @for (int i = 0; i < files.Length; i++)
+    {
+        <div class="w-16 md:w-20 h-6 flex items-center justify-center text-sm">@files[i]</div>
+    }
+</div>
+
+<div class="flex flex-col gap-1">
+    <h2 class="text-3xl font-bold">Board options</h2>
+    <div class="flex gap-0.5">
+        Rotate board <input @bind="rotateBoard" type="checkbox" />
+    </div>
+    <div class="flex gap-0.5">
+        Initial color
+        <InputSelect @bind-Value="initialColor" >
+            @foreach (var color in Enum.GetValues(typeof(Color)))
+            {
+                <option value="@color">@color</option>
+            }
+        </InputSelect>
+    </div>
+    <div class="flex gap-0.5">
+        FEN <input @bind="FEN" />
+
+    </div>
+</div>
 @code {
     [Parameter] public ClientSideGame game { get; set; } = null!;
     public List<Coordinate> availableMoves = [];
     private Coordinate? selectedPieceCoordinate = default;
+    private bool rotateBoard = false;
+    private Color initialColor = Color.White;
+    public static string? FEN = null;
+    
 
     public string GetRotation()
     {
-        return game.State.ColorTurn == Color.White ? "" : "rotate-180";
+        if(!rotateBoard)
+        {
+            return "";
+        }
+        return game.State.ColorTurn == initialColor ? "" : "rotate-180";
     }
 
     public void RemoveAvailableMoves()
