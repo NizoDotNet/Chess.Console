@@ -48,9 +48,48 @@
 
 @code {
     [Parameter] public ClientSideGame game { get; set; } = null!;
+    public List<Coordinate> availableMoves = [];
+    private Coordinate? selectedPieceCoordinate = default;
 
     public string GetRotation()
     {
         return game.State.ColorTurn == Color.White ? "" : "rotate-180";
     }
+
+    public void RemoveAvailableMoves()
+    {
+        availableMoves = [];
+        StateHasChanged();
+    }
+
+    public Piece? GetPiece(int rank, int file)
+    {
+        if (game.Board.PieceExist(rank, (File)(file), out Piece piece, out Coordinate _))
+            return piece;
+        return null;
+    }
+
+    public void OnPieceClick((Piece piece, int rank, int file) res)
+    {
+        if (res.piece.Color != game.State.ColorTurn)
+            return;
+        selectedPieceCoordinate = new Coordinate(res.rank, (File)res.file);
+        availableMoves = game.GetAllowedMoves(res.piece, selectedPieceCoordinate);
+        StateHasChanged();
+    }
+
+    public void OnMove((int rank, int file) res)
+    {
+        if (selectedPieceCoordinate is null)
+            return;
+
+        var piece = GetPiece(selectedPieceCoordinate.Rank, (int)selectedPieceCoordinate.File)!;
+        game.MakeMove(piece, selectedPieceCoordinate!, new Coordinate(res.rank, (File)res.file));
+        selectedPieceCoordinate = default;
+        availableMoves = [];
+        StateHasChanged();
+
+    }
+
+
 }

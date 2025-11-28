@@ -13,7 +13,6 @@
 
 @code {
     private List<Coordinate> availableMoves = [];
-    private Coordinate? selectedPieceCoordinate = default;
     private ClientSideGame game = null!;
 
 
@@ -23,37 +22,6 @@
         game = new(string.IsNullOrEmpty(FEN) ? null : FEN);
         game.OnCheck += OnCheck;
         game.OnMate += OnMate;
-    }
-
-
-
-    public Piece? GetPiece(int rank, int file) 
-    {
-        if (game.Board.PieceExist(rank, (File)(file), out Piece piece, out Coordinate _))
-            return piece;
-        return null;
-    }
-
-    public void OnPieceClick((Piece piece, int rank, int file) res)
-    {
-        if (res.piece.Color != game.State.ColorTurn)
-            return;
-        selectedPieceCoordinate = new Coordinate(res.rank, (File)res.file);
-        availableMoves = game.GetAllowedMoves(res.piece, selectedPieceCoordinate);
-        StateHasChanged();
-    }
-
-    public void OnMove(( int rank, int file) res)
-    {
-        if (selectedPieceCoordinate is null)
-            return;
-
-        var piece = GetPiece(selectedPieceCoordinate.Rank, (int)selectedPieceCoordinate.File)!;
-        game.MakeMove(piece, selectedPieceCoordinate!, new Coordinate(res.rank, (File)res.file));
-        selectedPieceCoordinate = default;
-        availableMoves = [];
-        StateHasChanged();
-
     }
 
     public void OnCheck()
@@ -67,9 +35,5 @@
 
     }
 
-    public void RemoveAvailableMoves()
-    {
-        availableMoves = [];
-        StateHasChanged();
-    }
+   
 }
