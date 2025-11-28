@@ -55,7 +55,7 @@ public class Board
             PieceType.King => 'k',
             PieceType.Queen => 'q',
             PieceType.Bishop => 'b',
-            PieceType.Knight => 'k',
+            PieceType.Knight => 'n',
             PieceType.Rook => 'r',
             PieceType.Pawn => 'p'
         };
