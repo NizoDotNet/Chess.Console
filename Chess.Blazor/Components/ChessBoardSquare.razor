@@ -1,6 +1,7 @@
 ﻿@using Chess.Blazor.Application.Main
 
-<div class="@(SquareClasses + " " + GetRotation())">
+<div class="@(SquareClasses + " " + (!RotateBoard ? ""
+                                    : game.State.ColorTurn == InitialColor ? "" : "rotate-180"))">
     @if (Piece is not null)
     {
         @if (game.State.State == State.Check && game.State.ColorTurn == Piece.Color && Piece.Type == PieceType.King)
@@ -46,6 +47,11 @@
     [Parameter] public bool RotateBoard { get; set; } = false;
     [Parameter] public Color InitialColor { get; set; } = Color.White;
 
+
+    public string rotation => !RotateBoard ? ""
+                                    : game.State.ColorTurn == InitialColor ? "" : "rotate-180";
+
+
     private string SquareClasses =>
         $"relative w-16 h-16 md:w-20 md:h-20 " +
         $"{(IsDark ? "bg-green-700" : "bg-amber-200")} " +
@@ -77,9 +83,5 @@
         return $"/figures/{type}-{pieceColor}.svg";
     }
 
-    public string GetRotation()
-    {
-        if (!RotateBoard) return "";
-        return game.State.ColorTurn == InitialColor ? "" : "rotate-180";
-    }
+
 }

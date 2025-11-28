@@ -12,7 +12,8 @@
 </div>
 
 <div class="flex">
-    <div class=@("flex flex-col " + GetRotation())>
+    <div class=@("flex flex-col " + (!rotateBoard ? ""
+         : game.State.ColorTurn == initialColor ? "" : "rotate-180"))>
         @for (int rank = 8; rank > 0; rank--)
         {
             <div class="flex">
@@ -62,9 +63,9 @@
         </InputSelect>
     </div>
     <div class="flex gap-0.5">
-        FEN <input @bind="FEN" />
-
+        FEN <input @bind-value="FEN" class="outline-1 outline-solid"/>
     </div>
+    <button @onclick="Apply" class="cursor-pointer hover:opacity-75">Apply</button>
 </div>
 @code {
     [Parameter] public ClientSideGame game { get; set; } = null!;
@@ -72,17 +73,11 @@
     private Coordinate? selectedPieceCoordinate = default;
     private bool rotateBoard = false;
     private Color initialColor = Color.White;
-    public static string? FEN = null;
-    
+    public string? FEN = null;
 
-    public string GetRotation()
-    {
-        if(!rotateBoard)
-        {
-            return "";
-        }
-        return game.State.ColorTurn == initialColor ? "" : "rotate-180";
-    }
+    public string rotation => !rotateBoard ? ""
+                                    : game.State.ColorTurn == initialColor ? "" : "rotate-180";
+
 
     public void RemoveAvailableMoves()
     {
@@ -117,6 +112,12 @@
         availableMoves = [];
         StateHasChanged();
 
+    }
+
+    public void Apply()
+    {
+        Console.WriteLine(initialColor);
+        StateHasChanged();
     }
 
 
