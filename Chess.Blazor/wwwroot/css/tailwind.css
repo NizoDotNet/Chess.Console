@@ -528,6 +528,9 @@
   .table-row {
     display: table-row;
   }
+  .field-sizing-content {
+    field-sizing: content;
+  }
   .size-16 {
     width: calc(var(--spacing) * 16);
     height: calc(var(--spacing) * 16);
@@ -582,6 +585,9 @@
   }
   .w-full {
     width: 100%;
+  }
+  .min-w-\[200px\] {
+    min-width: 200px;
   }
   .flex-shrink {
     flex-shrink: 1;

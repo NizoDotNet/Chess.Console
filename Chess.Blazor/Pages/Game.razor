@@ -7,12 +7,14 @@
 <div class="flex flex-col items-center justify-center select-none">
     <Board game="game">
         <AdditionalOptions>
-            <div class="flex gap-0.5"> 
-                 FEN <input @bind-value="FEN" class="outline-1 outline-solid"/> 
-                 <button @onclick="GetFen" class="cursor-pointer background-sky-500 hover:opacity-75">Get Fen</button> 
+            <div class="flex gap-0.5">
+                FEN <input @bind-value="FEN" class="field-sizing-content min-w-[200px] outline-1 outline-solid" />
+                <button @onclick="GetFen" class="cursor-pointer background-sky-500 hover:opacity-75">Get Fen</button> 
 
-             </div> 
-             <button @onclick="Apply" class="cursor-pointer hover:opacity-75">Apply</button> 
+            </div> 
+            <button @onclick="Apply" class="cursor-pointer hover:opacity-75">Apply</button>
+            <button @onclick="Reset" class="background-blue-400 cursor-pointer hover:opacity-75">Reset</button>
+
         </AdditionalOptions>
     </Board>
 </div>
@@ -51,6 +53,13 @@
         }
         game.Board.SetFen(FEN, null);
         StateHasChanged();
+
+    }
+
+    public void Reset()
+    {
+        game = new(null);
+        FEN = game.Board.GetFen();
 
     }
 
