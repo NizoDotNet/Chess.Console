@@ -12,6 +12,7 @@ public class Board
         PieceAndCoordinates = new();
     }
 
+
     public void SetFen(string fen, Promation promation)
     {
         PieceAndCoordinates = [];

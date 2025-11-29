@@ -5,7 +5,16 @@
 
 
 <div class="flex flex-col items-center justify-center select-none">
-    <Board game="game"/>
+    <Board game="game">
+        <AdditionalOptions>
+            <div class="flex gap-0.5"> 
+                 FEN <input @bind-value="FEN" class="outline-1 outline-solid"/> 
+                 <button @onclick="GetFen" class="cursor-pointer background-sky-500 hover:opacity-75">Get Fen</button> 
+
+             </div> 
+             <button @onclick="Apply" class="cursor-pointer hover:opacity-75">Apply</button> 
+        </AdditionalOptions>
+    </Board>
 </div>
 
 
@@ -14,6 +23,7 @@
 @code {
     private List<Coordinate> availableMoves = [];
     private ClientSideGame game = null!;
+    public string? FEN = null;
 
 
     protected override void OnInitialized()
@@ -32,6 +42,21 @@
     {
         Console.WriteLine("Mate");
 
+    }
+    public void Apply()
+    {
+        if (string.IsNullOrEmpty(FEN))
+        {
+            return;
+        }
+        game.Board.SetFen(FEN, null);
+        StateHasChanged();
+
+    }
+
+    public void GetFen()
+    {
+        FEN = game.Board.GetFen();
     }
 
    

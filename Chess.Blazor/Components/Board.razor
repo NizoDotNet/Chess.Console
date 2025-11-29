@@ -61,14 +61,10 @@
             }
         </InputSelect>
     </div>
-    @* <div class="flex gap-0.5"> *@
-    @*     FEN <input @bind-value="FEN" class="outline-1 outline-solid"/> *@
-    @*     <button @onclick="GetFen" class="cursor-pointer background-sky-500 hover:opacity-75">Get Fen</button> *@
-
-    @* </div> *@
-    @* <button @onclick="Apply" class="cursor-pointer hover:opacity-75">Apply</button> *@
+    @AdditionalOptions
 </div>
 @code {
+    [Parameter] public RenderFragment? AdditionalOptions { get; set; }
     [Parameter] public ClientSideGame game { get; set; } = null!;
     public List<Coordinate> availableMoves = [];
     private Coordinate? selectedPieceCoordinate = default;
