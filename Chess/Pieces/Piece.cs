@@ -22,6 +22,7 @@ public abstract class Piece
 
     public virtual void MakeMove(Board board, Coordinate from, Coordinate to)
     {
+        board.EnPassant = null;
         board.RemovePiece(to);
         board.RemovePiece(from);
         board.SetPiece(this, to);

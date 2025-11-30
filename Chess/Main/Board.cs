@@ -6,13 +6,13 @@ namespace Chess.Main;
 
 public class Board 
 {
-    public Dictionary<Coordinate, Piece> PieceAndCoordinates { get; set; }
     public Board()
     {
         PieceAndCoordinates = new();
     }
 
-
+    public Dictionary<Coordinate, Piece> PieceAndCoordinates { get; set; }
+    public Coordinate? EnPassant { get; set; } = null;
     public void SetFen(string fen, Promation promation)
     {
         PieceAndCoordinates = [];

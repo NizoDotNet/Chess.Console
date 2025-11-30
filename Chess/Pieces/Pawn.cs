@@ -25,7 +25,11 @@ public class Pawn : Piece, IPawn
 
     public IEnumerable<Coordinate> CanTakePiece(Board board, Coordinate coordinate)
     {
-        if(this.Color == Color.White)
+        if(CheckEnPassant(board, coordinate))
+        {
+            yield return board.EnPassant!;
+        }
+        if (this.Color == Color.White)
         {
             if(coordinate.File != Helpers.File.A)
             {
@@ -38,6 +42,7 @@ public class Pawn : Piece, IPawn
             }
             if(coordinate.File != Helpers.File.H)
             {
+
                 var checkCoordinate = new Coordinate(coordinate.Rank + 1, coordinate.File + 1);
                 if (board.PieceAndCoordinates.TryGetValue(checkCoordinate, out var piece)
                     && piece.Color == Color.Black)
@@ -77,7 +82,25 @@ public class Pawn : Piece, IPawn
         if(this.Color == Color.White && coordinate.Rank == 8) return true;
         return false;
     }
+    public bool CheckEnPassant(Board board, Coordinate from)
+    {
+        if (board.EnPassant is not { } ep)
+            return false;
 
+        int dir = this.Color == Color.White ? 1 : -1;
+
+        if (ep.Rank != from.Rank + dir)
+            return false;
+
+        int fromFile = (int)from.File;
+        int epFile = (int)ep.File;
+        int fileDiff = epFile - fromFile;
+
+        if (fileDiff is not (1 or -1))
+            return false;
+
+        return true;
+    }
     public override IEnumerable<Coordinate> GetAllMoves(Board board, Coordinate coordinate)
     {
         var moveCoordinates = MoveCoordinates();
@@ -92,6 +115,8 @@ public class Pawn : Piece, IPawn
         }
         foreach (var move in CanTakePiece(board, coordinate))
             yield return move;      
+
+
     }
 
 
@@ -117,16 +142,27 @@ public class Pawn : Piece, IPawn
 
     public override void MakeMove(Board board, Coordinate from, Coordinate to)
     {
+        if(this.Color == Color.White && from.Rank == 2 && to.Rank == 4)
+        {
+            board.EnPassant = new(to.Rank - 1, from.File);
+        }
+        else if (this.Color == Color.Black && from.Rank == 7 && to.Rank == 5)
+        {
+            board.EnPassant = new(to.Rank + 1, from.File);
+        }
+
+
         var piece = CheckPromation(to) ? OnPromotion() : this;
         
         board.RemovePiece(from);
         board.RemovePiece(to);
-        board.SetPiece(piece, to);
+        board.SetPiece(piece ?? this, to);
         isMoved = true;
+        board.EnPassant = null;
 
     }
 
-    public Piece OnPromotion()
+    public Piece? OnPromotion()
     {
         return PromationEvent?.Invoke(Color);
     }
