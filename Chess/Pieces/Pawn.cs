@@ -142,7 +142,8 @@ public class Pawn : Piece, IPawn
 
     public override void MakeMove(Board board, Coordinate from, Coordinate to)
     {
-        if(this.Color == Color.White && from.Rank == 2 && to.Rank == 4)
+        board.EnPassant = null;
+        if (this.Color == Color.White && from.Rank == 2 && to.Rank == 4)
         {
             board.EnPassant = new(to.Rank - 1, from.File);
         }
@@ -158,7 +159,7 @@ public class Pawn : Piece, IPawn
         board.RemovePiece(to);
         board.SetPiece(piece ?? this, to);
         isMoved = true;
-        board.EnPassant = null;
+
 
     }
 
