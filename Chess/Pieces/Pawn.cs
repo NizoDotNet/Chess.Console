@@ -142,6 +142,12 @@ public class Pawn : Piece, IPawn
 
     public override void MakeMove(Board board, Coordinate from, Coordinate to)
     {
+        if(board.EnPassant is { } ep && (to.Rank, to.File) == (ep.Rank, ep.File))
+        {
+            base.MakeMove(board, from, to);
+            board.RemovePiece(ep with { Rank = ep.Rank + (this.Color == Color.White ? -1 : 1)});
+            return;
+        }
         board.EnPassant = null;
         if (this.Color == Color.White && from.Rank == 2 && to.Rank == 4)
         {
