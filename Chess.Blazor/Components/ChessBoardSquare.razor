@@ -1,6 +1,10 @@
 ﻿@using Chess.Blazor.Application.Main
 
-<div class="@(SquareClasses + " " + rotation)">
+<div class="@(SquareClasses + " " + rotation)"
+draggable="@IsDraggable"
+@ondragstart="OnDragStart"
+@ondragover="OnDragOver"
+@ondrop="OnDrop">
     @if (Piece is not null)
     {
         @if (game.State.State == State.Check && game.State.ColorTurn == Piece.Color && Piece.Type == PieceType.King)
@@ -83,5 +87,19 @@
         return $"/figures/{type}-{pieceColor}.svg";
     }
 
+    bool IsDraggable => Piece is not null;
 
+    private async Task OnDragStart(DragEventArgs e)
+    {
+        await OnPieceClickCallback.InvokeAsync((Piece, Rank, File));
+    }
+
+    private void OnDragOver(DragEventArgs e)
+    {
+    }
+
+    private async Task OnDrop(DragEventArgs e)
+    {
+        await OnMakeMoveCallback.InvokeAsync((Rank, File));
+    }
 }
