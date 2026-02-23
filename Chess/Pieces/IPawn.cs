@@ -9,7 +9,7 @@ public interface IPawn
     public event Promation PromationEvent;
 
     IEnumerable<Coordinate> CanTakePiece(Board board, Coordinate coordinate);
-    bool CheckPromation(Coordinate coordinate);
+    bool CheckPromotion(Coordinate coordinate);
     public Piece OnPromotion();
 
 }

@@ -76,7 +76,7 @@ public class Pawn : Piece, IPawn
         }
     }
 
-    public bool CheckPromation(Coordinate coordinate)
+    public bool CheckPromotion(Coordinate coordinate)
     {
         if (this.Color == Color.Black && coordinate.Rank == 1) return true;
         if(this.Color == Color.White && coordinate.Rank == 8) return true;
@@ -162,7 +162,7 @@ public class Pawn : Piece, IPawn
         }
 
 
-        var piece = CheckPromation(to) ? OnPromotion() : this;
+        var piece = CheckPromotion(to) ? OnPromotion() : this;
         
         board.RemovePiece(from);
         board.RemovePiece(to);
