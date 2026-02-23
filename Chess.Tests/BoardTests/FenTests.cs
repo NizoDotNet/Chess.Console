@@ -4,6 +4,7 @@ namespace Chess.Tests.BoardTests;
 
 public class FenTests
 {
+
     [Theory]
     [InlineData("r1bqk2r/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQ1RK1/")]
     [InlineData("rnbq1rk1/pp2bppp/2p1pn2/3p4/3P4/2NBPN2/PP3PPP/R1BQ1RK1/")]

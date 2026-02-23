@@ -111,7 +111,9 @@ public class Pawn : Piece, IPawn
             if (!board.PieceAndCoordinates.ContainsKey(checkCoordinate))
             {
                 yield return checkCoordinate;
+
             }
+            else break;
         }
         foreach (var move in CanTakePiece(board, coordinate))
             yield return move;      
@@ -122,15 +124,7 @@ public class Pawn : Piece, IPawn
 
     public IEnumerable<MoveCoordinate>  MoveCoordinates()
     {
-        if(!isMoved)
-        {
-            if(this.Color == Color.White)
-                yield return new MoveCoordinate(2, 0);
-            
-            else 
-                yield return new MoveCoordinate(-2, 0);
-        }
-        if(this.Color == Color.White)
+        if (this.Color == Color.White)
         {
             yield return new MoveCoordinate(1, 0);
         }
@@ -138,6 +132,15 @@ public class Pawn : Piece, IPawn
         {
             yield return new MoveCoordinate(-1, 0);
         }
+        if (!isMoved)
+        {
+            if(this.Color == Color.White)
+                yield return new MoveCoordinate(2, 0);
+            
+            else 
+                yield return new MoveCoordinate(-2, 0);
+        }
+        
     }
 
     public override void MakeMove(Board board, Coordinate from, Coordinate to)
